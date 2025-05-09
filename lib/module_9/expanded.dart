@@ -13,13 +13,13 @@ class _ExpandedallState extends State<Expandedall> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Expanded app'),
-        backgroundColor: Colors.pink,
+        backgroundColor: Colors.blue,
       ),
 
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 10,),
+            SizedBox(height: 14,),
             
             FractionallySizedBox(
               widthFactor: 0.8,

@@ -13,7 +13,7 @@ class _AspectallState extends State<Aspectall> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Aspect Ratio'),
-        backgroundColor: Colors.cyan,
+        backgroundColor: Colors.red,
       ),
 
       body: SingleChildScrollView(
