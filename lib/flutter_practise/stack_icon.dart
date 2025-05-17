@@ -45,7 +45,7 @@ class _stackinState extends State<stackin> {
                   width: 300,
                   color: Colors.white,
                   child: Image.asset(
-                    "asset/Screenshot_3.png",
+                    "asset/images.jpeg",
                     fit: BoxFit.fill,
                   ),
               ),

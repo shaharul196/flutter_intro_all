@@ -155,7 +155,7 @@ class Homer extends StatelessWidget {
 
     floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        backgroundColor: Colors.cyan,
+        backgroundColor: Colors.orange,
         onPressed: (){
           print('floating button pressed');
         }),
