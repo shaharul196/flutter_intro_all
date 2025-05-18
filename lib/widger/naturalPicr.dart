@@ -18,7 +18,7 @@ class naturalpicr extends StatelessWidget {
       width: 300,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),
-          color: Colors.grey,
+          color: Colors.white,
           boxShadow: [
             BoxShadow(
               offset: Offset(8, 8),
@@ -33,10 +33,49 @@ class naturalpicr extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(height: 20,),
-            Image.asset(image),
+
+            Stack(
+                children: [
+                  Image.asset(image),
+                 Positioned(
+                  bottom: 10,
+                  left: 14,
+                  child: Container(
+                    padding: EdgeInsets.all(3),
+                    color: Colors.white,
+                    child: Text('4.5',style: TextStyle(
+                      fontSize: 25,
+                      color: Colors.orange,
+                      fontWeight: FontWeight.bold,
+                    ),),
+
+                  )
+
+                ),
+
+                 Positioned(
+                    bottom: 10,
+                    right: 14,
+                    child: Container(
+                    padding: EdgeInsets.all(3),
+                    color: Colors.orange,
+                    child: Text(city,style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),),
+
+                  )
+
+              ),
+              SizedBox(height: 200,),
+              Icon(Icons.star,size: 40,color: Colors.orange,),
+
+            ]
+            ),
+
             Text(city,style: TextStyle(
               fontSize: 32,
-              color: Colors.white,
+              color: Colors.blue,
             ),),
           ],
         ),
