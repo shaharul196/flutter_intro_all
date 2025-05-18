@@ -33,7 +33,7 @@ class _customwidginState extends State<customwidgin> {
             naturalpicr(image:'asset/images.jpeg',city:'Rangpur'),
             
             SizedBox(width:15,),
-            naturalpicr(image:'asset/images (5).jpeg',city:'Nilphamary'),
+            naturalpicr(image:'asset/download.jpeg',city:'Nilphamary'),
             
 
 
