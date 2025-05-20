@@ -84,6 +84,29 @@ class ResponsiveFlag extends StatelessWidget {
                       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                     ),
                   ),
+
+                 Padding(
+                   padding: const EdgeInsets.all(8.0),
+                   child: Card(
+                     color: Colors.grey.shade300,
+                     child: ListTile(
+                       leading: Icon(Icons.explore,color: Colors.blue,size: 35,),
+                       title: Text('Explore ',style: TextStyle(
+                         color: Colors.blue,
+                         fontWeight: FontWeight.bold,
+                         fontSize: 16
+                       ),
+                       ),
+                     ),
+                   ),
+                 )
+
+                  // ListView(
+                  //   children: [
+                  //    
+                  //   ],
+                  // )
+
                 ],
               ),
             );
