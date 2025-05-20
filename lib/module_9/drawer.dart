@@ -61,12 +61,22 @@ class _DrawerallState extends State<Drawerall> {
               thickness: 3,
               color: Colors.red.shade200,
             ),
+
             ListTile(title: Text('Logout'), onTap: () {}),
+
             Divider(
               thickness: 3,
               color: Colors.red.shade200,
-
             ),
+
+            ListTile(title: Text('profile'), onTap: () {}),
+
+            Divider(
+              thickness: 3,
+              color: Colors.red.shade200,
+            ),
+
+
 
 
           ],
