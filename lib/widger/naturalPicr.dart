@@ -70,6 +70,7 @@ class naturalpicr extends StatelessWidget {
               SizedBox(height: 200,),
               Icon(Icons.star,size: 40,color: Colors.orange,),
 
+
             ]
             ),
 
