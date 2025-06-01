@@ -25,8 +25,6 @@ class _WaterTrackerState extends State<WaterTracker> {
     });
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     double progress = (CurrentInTake/goal).clamp(0.0, 1.0);
@@ -94,6 +92,7 @@ class _WaterTrackerState extends State<WaterTracker> {
                       strokeWidth: 9,
                     ),
                   ),
+
                   // Text('20%')
                   Text('${(progress*100).toInt()}%',
                   style: TextStyle(
