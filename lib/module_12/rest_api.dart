@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -27,8 +28,9 @@ class _RestapiclassInState extends State<RestapiclassIn> {
     setState(() {
       isLoading = false;
     });
+
     print(response.body);
-    // log(response.body as num);
+    // log(response.body);
 
 
     if(response.statusCode == 200){
@@ -62,7 +64,7 @@ class _RestapiclassInState extends State<RestapiclassIn> {
 
             return ListTile(
               leading: CircleAvatar(
-                backgroundColor: Colors.purple,
+                backgroundColor: Colors.blue,
                 child: Text(user['name'][0],style: TextStyle(
                   color: Colors.white,
                   fontSize: 28,
@@ -70,25 +72,27 @@ class _RestapiclassInState extends State<RestapiclassIn> {
               ),
 
               // Text(users[index]['name'] avabe likhte pari
-              title: Text( user['name']),
+              title: Text( user['name'],style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 10,),
                   Text('UserName: ${user['username']}',style: TextStyle(
-                    color: Colors.blue,
+                    color: Colors.black,
                   ),),
                   Text('Email: ${user['email']}',style: TextStyle(
-                    color: Colors.blue,
+                    color: Colors.black,
                   ),),
                   Text('Address: ${user['address']['street']} , ${user['address']['city']}',style: TextStyle(
-                    color: Colors.blue,
+                    color: Colors.black,
                   ),),
                   Text('Phone: ${user['phone']}',style: TextStyle(
-                    color: Colors.blue,
+                    color: Colors.black,
                   ),),
                   Text('Website: ${user['website']}',style: TextStyle(
-                    color: Colors.blue,
+                    color: Colors.black,
                   ),),
                 ],
               ),
