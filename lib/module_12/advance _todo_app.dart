@@ -28,7 +28,7 @@ class _FcnTodoappState extends State<FcnTodoapp> {
   void showTaskDialog({int? index}) {
     // text edit kora condition a
     TextEditingController taskController = TextEditingController(
-      text: index !=null ? tasks[index]['task']:''
+      text: index !=null ? tasks[index]['task'] : ''
     );
     showDialog(
       context: context,
