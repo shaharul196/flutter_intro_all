@@ -48,8 +48,8 @@ class Data {
     productCode = json['ProductCode'];
     img = json['Img'];
     qty = json['Qty'];
-    unitPrice = json['UnitPrice'];
-    totalPrice = json['TotalPrice'];
+    unitPrice = json['UnitPrice'].toInt();
+    totalPrice = json['TotalPrice'].toInt();
   }
 
   Map<String, dynamic> toJson() {

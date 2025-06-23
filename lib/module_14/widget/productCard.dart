@@ -16,11 +16,12 @@ class productCard extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            height: 150,
-            child: Image.asset(
-                height: 140,
-                fit: BoxFit.cover,
-                'asset/iphone1.jpeg'),
+            height: 140,
+            child: Image.network(
+              height: 140,
+              fit: BoxFit.cover,
+              product.img.toString(),
+            ),
           ),
 
           Padding(

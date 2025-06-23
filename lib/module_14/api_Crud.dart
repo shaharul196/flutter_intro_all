@@ -11,46 +11,62 @@ class Crudapi extends StatefulWidget {
 
 class _CrudapiState extends State<Crudapi> {
   final ProductController productcontroller = ProductController();
-  
+
+  Future<void>fecthData() async {
+    await productcontroller.fetchProducts();
+    print(productcontroller.products.length);
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    setState(() {
-      productcontroller.fetchProducts();
-    });
+    fecthData();
   }
-  
+
   @override
   Widget build(BuildContext context) {
 
-    void productDialog(){
+    // akn productDialog a Update er jonno parameter nilam
+    void productDialog({String ? id,String ? name,String ? img,int ? qty,int ? unitPrice,int ? totalPrice,required bool isupdate}){
       TextEditingController productNameController = TextEditingController();
       TextEditingController productQTYController = TextEditingController();
       TextEditingController productImageController = TextEditingController();
       TextEditingController productUnitPriceController = TextEditingController();
       TextEditingController productTotalPriceController = TextEditingController();
+      
+      
+      productNameController.text = name ?? '';
+      productImageController.text = img ?? '';
+      productQTYController.text = qty != null ? qty.toString() : '0';
+      productUnitPriceController.text = unitPrice != null ? unitPrice.toString() : '0';
+      productTotalPriceController.text = totalPrice != null ? totalPrice.toString() : '0';
+      
+      
 
       showDialog(context: context, builder: (context)=>
         AlertDialog(
-          title: Text('Add Product'),
+          title: Text(isupdate ? 'Edit Product' :'Add Product'),
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextField(
+                  controller: productNameController,
                   decoration: InputDecoration(
                     labelText: 'Product name',
                   ),
                 ),
             
                 TextField(
+                  controller: productImageController,
                   decoration: InputDecoration(
                     labelText: 'Product image',
                   ),
                 ),
             
                 TextField(
+                  controller: productQTYController,
                   decoration: InputDecoration(
                     labelText: 'Product qty',
                   ),
@@ -58,6 +74,7 @@ class _CrudapiState extends State<Crudapi> {
                 ),
             
                 TextField(
+                  controller: productUnitPriceController,
                   decoration: InputDecoration(
                     labelText: 'Product unit price',
                   ),
@@ -65,6 +82,7 @@ class _CrudapiState extends State<Crudapi> {
                 ),
             
                 TextField(
+                  controller: productTotalPriceController,
                   decoration: InputDecoration(
                     labelText: 'total price',
                   ),
@@ -76,13 +94,42 @@ class _CrudapiState extends State<Crudapi> {
                     TextButton(onPressed: (){
                       Navigator.pop(context);
                     }, child: Text('Close')),
-                    SizedBox(width: 60,),
+                    SizedBox(width: 40,),
             
-                    ElevatedButton(onPressed: (){
-            
-                    },style: ElevatedButton.styleFrom(
+                    ElevatedButton(onPressed: () async {
+                     
+                        productcontroller.CreateUpdateProducts(productNameController.text, productImageController.text,
+                            int.parse(productQTYController.text.trim()), int.parse(productUnitPriceController.text.trim()),
+                            int.parse(productTotalPriceController.text.trim()),
+                         id,isupdate
+                        ).then((value) async {
+                          if(value){
+                            await productcontroller.fetchProducts();
+                            setState(()  {
+                            });
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(isupdate ? 'Product Updated' : 'Product Created'),
+                                duration: Duration(seconds: 2),
+                              ),
+                            );
+                          }else{
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Something wrong...!'),
+                                duration: Duration(seconds: 2),
+                              ),
+                            );
+                          }
+                        });
+
+                        Navigator.pop(context);
+                        await fecthData();
+                        setState(() {
+
+                        });
+                      
+                      },style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
-                    ), child: Text('Add Product',style: TextStyle(
+                      ), child: Text( isupdate ? 'Update Product' : 'Add Product',style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -103,7 +150,7 @@ class _CrudapiState extends State<Crudapi> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Product Crud'),
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.orange,
         centerTitle: true,
        ),
 
@@ -114,11 +161,12 @@ class _CrudapiState extends State<Crudapi> {
               // mainAxisExtent: 10,
               childAspectRatio: 0.6,
             ),
-          itemCount:3,
+          itemCount: productcontroller.products.length,
+
           itemBuilder: (context,index){
             var product = productcontroller.products[index];
             return productCard(onEdit: () {
-              productDialog();
+              productDialog(name:product.productName ,img:product.img ,id:product.sId ,unitPrice:product.unitPrice ,totalPrice:product.totalPrice ,qty:product.qty , isupdate: true);
             },
               onDelete: () {
               productcontroller.DeleteProducts(product.sId.toString())
@@ -148,7 +196,7 @@ class _CrudapiState extends State<Crudapi> {
           }),
       
       floatingActionButton: FloatingActionButton(
-          onPressed: ()=>productDialog(),
+          onPressed: ()=>productDialog(isupdate: false),
          child: Icon(Icons.add,size: 38,),
       
       ),
