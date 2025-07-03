@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/screens/sign_in_screen.dart';
+import 'module_16/ui/screens/change_password.dart';
+import 'module_16/ui/screens/forgot_password_email_screen.dart';
+import 'module_16/ui/screens/pin_varification_screen.dart';
 import 'module_16/ui/screens/sign_up_screen.dart';
 import 'module_16/ui/screens/splash_screen.dart';
 
@@ -42,28 +45,27 @@ class MyApp extends StatelessWidget {
         ),
 
         textButtonTheme: TextButtonThemeData(
-          style: TextButton.styleFrom(
-            foregroundColor: Colors.green,
-          )
-        )
+          style: TextButton.styleFrom(foregroundColor: Colors.green),
+        ),
       ),
 
       // home: SplashScreen(),
-
       initialRoute: '/',
+
       // routes: {
       //   '/': (context) => SplashScreen(),
       //   '/sign-in': (context) => SignInScreen(),
       // },
-
       routes: {
         SplashScreen.name: (context) => SplashScreen(),
         SignInScreen.name: (context) => SignInScreen(),
         SignUpScreen.name: (context) => SignUpScreen(),
+        ForgotPasswordEmailScreen.name: (context) => ForgotPasswordEmailScreen(),
+        PinVerificationScreen.name: (context) => PinVerificationScreen(),
+        ChangePasswordScreen.name: (context) => ChangePasswordScreen(),
 
 
       },
-
     );
   }
 }

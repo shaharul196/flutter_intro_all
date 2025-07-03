@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:ostad_flutter_sazu/module_16/ui/screens/forgot_password_email_screen.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/screens/sign_up_screen.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/widget/screen_background.dart';
 import 'package:email_validator/email_validator.dart';
@@ -132,7 +133,9 @@ class _SignInScreenState extends State<SignInScreen> {
     }
   }
 
-  void _onTapForgotPasswordButton() {}
+  void _onTapForgotPasswordButton() {
+    Navigator.pushReplacementNamed(context, ForgotPasswordEmailScreen.name);
+  }
 
   void _onTapSignUpButton() {
     Navigator.pushReplacementNamed(context, SignUpScreen.name);
