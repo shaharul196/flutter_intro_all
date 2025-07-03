@@ -24,6 +24,8 @@ class ProductController{
 
   Future<bool> CreateUpdateProducts(String productName,String img,int qty,int UnitPrice,int totalPrice,String ? productId,bool isUpdate)async {
     final response = await http.post(Uri.parse(isUpdate ? Urls.updateProduct(productId!) : Urls.createProduct),
+    // akti product kivabe add/create korte pari
+
     headers: {'Content-type' : 'application/json'},
     body: jsonEncode(
         {
