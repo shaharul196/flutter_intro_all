@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/screens/sign_in_screen.dart';
+import 'module_16/ui/screens/add_new_task_screen.dart';
 import 'module_16/ui/screens/change_password.dart';
 import 'module_16/ui/screens/forgot_password_email_screen.dart';
 import 'module_16/ui/screens/main_navigation_bar_screen.dart';
 import 'module_16/ui/screens/pin_varification_screen.dart';
 import 'module_16/ui/screens/sign_up_screen.dart';
 import 'module_16/ui/screens/splash_screen.dart';
+import 'module_16/ui/screens/update_profile_screen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  static GlobalKey<NavigatorState> navigator = GlobalKey<NavigatorState>();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigator,
       debugShowCheckedModeBanner: false,
 
       theme: ThemeData(
@@ -66,6 +71,8 @@ class MyApp extends StatelessWidget {
         PinVerificationScreen.name: (context) => PinVerificationScreen(),
         ChangePasswordScreen.name: (context) => ChangePasswordScreen(),
         MainNavigationBarScreen.name: (context) => MainNavigationBarScreen(),
+        AddNewTaskScreen.name: (context) => AddNewTaskScreen(),
+        UpdateProfileScreen.name: (context) => UpdateProfileScreen(),
       },
 
 
