@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:ostad_flutter_sazu/module_16/data/service/network_caller.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/widget/screen_background.dart';
+import 'package:ostad_flutter_sazu/module_16/ui/widget/snackbar_massage.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/widget/tm_app_bar.dart';
+
+import '../../data/urls.dart';
 
 class AddNewTaskScreen extends StatefulWidget {
   const AddNewTaskScreen({super.key});
@@ -12,10 +16,11 @@ class AddNewTaskScreen extends StatefulWidget {
 }
 
 class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
-
   final TextEditingController _titleTEController = TextEditingController();
-  final TextEditingController _descriptionTEController = TextEditingController();
+  final TextEditingController _descriptionTEController =
+      TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool _addNewTaskInProgress = false;
 
   @override
   Widget build(BuildContext context) {
@@ -42,10 +47,10 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                   TextFormField(
                     controller: _titleTEController,
                     decoration: InputDecoration(hintText: 'Title'),
-                    validator: (String ? value){
-                      if(value ?.trim().isEmpty ?? true){
+                    validator: (String? value) {
+                      if (value?.trim().isEmpty ?? true) {
                         return 'Enter your title';
-                      }else{
+                      } else {
                         return null;
                       }
                     },
@@ -55,18 +60,22 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                     controller: _descriptionTEController,
                     maxLines: 6,
                     decoration: InputDecoration(hintText: 'Description'),
-                    validator: (String ? value){
-                      if(value ?.trim().isEmpty ?? true){
+                    validator: (String? value) {
+                      if (value?.trim().isEmpty ?? true) {
                         return 'Enter your description';
-                      }else{
+                      } else {
                         return null;
                       }
                     },
                   ),
                   SizedBox(height: 24),
-                  ElevatedButton(
-                    onPressed: _onTapSubmitButton,
-                    child: Icon(Icons.arrow_circle_right_outlined, size: 25),
+                  Visibility(
+                    visible: _addNewTaskInProgress == false,
+                    replacement: CircularProgressIndicator(),
+                    child: ElevatedButton(
+                      onPressed: _onTapSubmitButton,
+                      child: Icon(Icons.arrow_circle_right_outlined, size: 25),
+                    ),
                   ),
                 ],
               ),
@@ -77,10 +86,38 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
     );
   }
 
-  void _onTapSubmitButton(){
-    if(_formKey.currentState!.validate());
-    //TODO Add new task
-    Navigator.pop(context);
+  void _onTapSubmitButton() {
+    if (_formKey.currentState!.validate()) {
+      _addNewTask();
+    }
+    // Navigator.pop(context);
+  }
+
+  Future<void> _addNewTask() async {
+    _addNewTaskInProgress = true;
+    setState(() {});
+
+    Map<String, String> requestBody = {
+      "title": _titleTEController.text.trim(),
+      "description": _descriptionTEController.text.trim(),
+      "status": "New",
+    };
+
+    NetworkResponse response = await NetworkCaller.postRequest(
+      url: Urlss.createNewTaskUrl,
+      body: requestBody,
+    );
+
+    _addNewTaskInProgress = false;
+    setState(() {});
+
+    if (response.isSuccess) {
+      _titleTEController.clear();
+      _descriptionTEController.clear();
+      showSnackBarMassage(context, 'Added new task');
+    } else {
+      showSnackBarMassage(context, response.errorMassage!);
+    }
   }
 
   @override
