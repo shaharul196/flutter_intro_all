@@ -8,6 +8,8 @@ import 'package:email_validator/email_validator.dart';
 import 'package:ostad_flutter_sazu/module_16/data/urls.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/widget/snackbar_massage.dart';
 
+import '../widget/centered_circular_progress_indicator.dart';
+
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
@@ -112,7 +114,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   SizedBox(height: 16),
                   Visibility(
                     visible: _signUpInProgress == false,
-                    replacement: Center(child: CircularProgressIndicator()),
+                    replacement: CenteredCircularProgressIndicator(),
                     child: ElevatedButton(
                       onPressed: _onTapSignUpButton,
                       child: Icon(Icons.arrow_circle_right_outlined, size: 20),
@@ -167,11 +169,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
         "firstName":_firstNameTEController.text.trim(),
         "lastName":_lastNameTEController.text.trim(),
         "mobile":_phoneNumberTEController.text.trim(),
-        "password":_passwordTEController.text.trim()
+        "password":_passwordTEController.text,
     };
     NetworkResponse response = await NetworkCaller.postRequest(
       url: Urlss.registationUrl, body: requestBody,
     );
+
     _signUpInProgress = false;
     setState(() {});
     if(response.isSuccess){

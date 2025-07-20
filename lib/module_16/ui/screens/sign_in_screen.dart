@@ -1,10 +1,15 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:ostad_flutter_sazu/module_16/data/models/user_model.dart';
+import 'package:ostad_flutter_sazu/module_16/data/service/network_caller.dart';
+import 'package:ostad_flutter_sazu/module_16/data/urls.dart';
+import 'package:ostad_flutter_sazu/module_16/ui/controllers/auth_controller.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/screens/forgot_password_email_screen.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/screens/sign_up_screen.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/widget/screen_background.dart';
 import 'package:email_validator/email_validator.dart';
-
+import 'package:ostad_flutter_sazu/module_16/ui/widget/snackbar_massage.dart';
+import '../widget/centered_circular_progress_indicator.dart';
 import 'main_navigation_bar_screen.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -20,6 +25,7 @@ class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _emailTEController = TextEditingController();
   final TextEditingController _passwordTEController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool _signInProgress = false;
 
   bool obscureText = true;
 
@@ -93,9 +99,13 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
 
                   SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: _onTapSignInButton,
-                    child: Icon(Icons.arrow_circle_right_outlined, size: 20),
+                  Visibility(
+                    visible: _signInProgress == false,
+                    replacement: CenteredCircularProgressIndicator(),
+                    child: ElevatedButton(
+                      onPressed: _onTapSignInButton,
+                      child: Icon(Icons.arrow_circle_right_outlined, size: 20),
+                    ),
                   ),
                   SizedBox(height: 32),
 
@@ -146,9 +156,40 @@ class _SignInScreenState extends State<SignInScreen> {
 
   void _onTapSignInButton() {
     if (_formKey.currentState!.validate()) {
-      // TODO: Sign in with Api
+      _signIn();
     }
-    Navigator.pushNamedAndRemoveUntil(context, MainNavigationBarScreen.name, (predicate) => false);
+
+  }
+
+  Future<void> _signIn() async {
+    _signInProgress = true;
+    setState(() {});
+
+    Map<String, String> requestBody = {
+      "email": _emailTEController.text.trim(),
+      "password": _passwordTEController.text,
+    };
+
+    NetworkResponse response = await NetworkCaller.postRequest(
+      url: Urlss.loginUrl,
+      body: requestBody,
+    );
+
+    if (response.isSuccess) {
+        UserModel userModel = UserModel.fromJson(response.body!['data']);
+        String token = response.body!['token'];
+
+        await AuthController.saveUserData(userModel, token);
+
+        Navigator.pushNamedAndRemoveUntil(
+          context, MainNavigationBarScreen.name,
+              (predicate) => false,
+        );
+    }else {
+        _signInProgress = false;
+        setState(() {});
+        showSnackBarMassage(context, response.errorMassage!);
+    }
   }
 
   void _onTapForgotPasswordButton() {
@@ -158,7 +199,6 @@ class _SignInScreenState extends State<SignInScreen> {
   void _onTapSignUpButton() {
     Navigator.pushReplacementNamed(context, SignUpScreen.name);
   }
-
 
   @override
   void dispose() {

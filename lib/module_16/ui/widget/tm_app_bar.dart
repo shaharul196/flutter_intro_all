@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ostad_flutter_sazu/app.dart';
+import 'package:ostad_flutter_sazu/module_16/ui/controllers/auth_controller.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/screens/sign_in_screen.dart';
-
 import '../screens/update_profile_screen.dart';
 
 class TMAppBar extends StatefulWidget implements PreferredSizeWidget {
@@ -32,12 +31,16 @@ class _TMAppBarState extends State<TMAppBar> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Sazu Islam',style: TextStyle(
+                  Text(
+                AuthController.userModel!.fullName,
+                style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                   ),),
-                  Text('sazu5@gmail.com',style: TextStyle(
+                  Text(
+                    AuthController.userModel!.email,
+                    style: TextStyle(
                     color: Colors.white,
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
@@ -53,7 +56,8 @@ class _TMAppBarState extends State<TMAppBar> {
     );
   }
 
-  void _onTapLogOutButton(){
+  Future<void> _onTapLogOutButton() async {
+    await AuthController.clearData();
     Navigator.pushNamedAndRemoveUntil(context, SignInScreen.name, (predicate) => false);
   }
 
