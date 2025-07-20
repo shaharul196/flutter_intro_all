@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ostad_flutter_sazu/module_16/ui/widget/centered_circular_progress_indicator.dart';
 
 import '../../data/models/task_model.dart';
 import '../../data/service/network_caller.dart';
@@ -30,7 +31,7 @@ class _ProgressTaskListScreenState extends State<ProgressTaskListScreen> {
         child: Expanded(
           child: Visibility(
             visible: _getProgressTasksInProgress == false,
-            replacement: CircularProgressIndicator(),
+            replacement: CenteredCircularProgressIndicator(),
             child: ListView.builder(
               itemCount: _progressTaskList.length,
               itemBuilder: (context, index) {

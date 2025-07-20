@@ -6,7 +6,8 @@ class CancelledTaskListScreen extends StatefulWidget {
   const CancelledTaskListScreen({super.key});
 
   @override
-  State<CancelledTaskListScreen> createState() => _CancelledTaskListScreenState();
+  State<CancelledTaskListScreen> createState() =>
+      _CancelledTaskListScreenState();
 }
 
 class _CancelledTaskListScreenState extends State<CancelledTaskListScreen> {
@@ -19,7 +20,7 @@ class _CancelledTaskListScreenState extends State<CancelledTaskListScreen> {
           child: ListView.builder(
             itemCount: 10,
             itemBuilder: (context, index) {
-              return TaskCard(taskType: TaskType.cancelled,);
+              // return TaskCard(taskType: TaskType.cancelled);
             },
           ),
         ),

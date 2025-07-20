@@ -3,6 +3,7 @@ import 'package:ostad_flutter_sazu/module_16/data/models/task_model.dart';
 import 'package:ostad_flutter_sazu/module_16/data/service/network_caller.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/widget/snackbar_massage.dart';
 import '../../data/urls.dart';
+import '../widget/centered_circular_progress_indicator.dart';
 import '../widget/task_card.dart';
 import '../widget/task_count_summary_card.dart';
 import 'add_new_task_screen.dart';
@@ -46,7 +47,7 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
             Expanded(
               child: Visibility(
                 visible: _getNewTasksInProgress == false,
-                replacement: CircularProgressIndicator(),
+                replacement: CenteredCircularProgressIndicator(),
                 child: ListView.builder(
                   itemCount: _newTaskList.length,
                   itemBuilder: (context, index) {

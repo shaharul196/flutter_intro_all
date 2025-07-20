@@ -5,6 +5,7 @@ import 'package:ostad_flutter_sazu/module_16/ui/widget/snackbar_massage.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/widget/tm_app_bar.dart';
 
 import '../../data/urls.dart';
+import '../widget/centered_circular_progress_indicator.dart';
 
 class AddNewTaskScreen extends StatefulWidget {
   const AddNewTaskScreen({super.key});
@@ -71,7 +72,7 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                   SizedBox(height: 24),
                   Visibility(
                     visible: _addNewTaskInProgress == false,
-                    replacement: CircularProgressIndicator(),
+                    replacement: CenteredCircularProgressIndicator(),
                     child: ElevatedButton(
                       onPressed: _onTapSubmitButton,
                       child: Icon(Icons.arrow_circle_right_outlined, size: 25),
