@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:ostad_flutter_sazu/module_16/data/models/task_model.dart';
 
 enum TaskType { tNew, progress, completed, cancelled }
 
 class TaskCard extends StatelessWidget {
-  const TaskCard({super.key, required this.taskType});
+  const TaskCard({super.key, required this.taskType, required this.taskModel});
   // final String text;
   // final Color colors;
 
   final TaskType taskType;
+  final TaskModel taskModel;
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +22,11 @@ class TaskCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Title will be here',
+              taskModel.title,
               style: Theme.of(context).textTheme.titleMedium,
             ),
-            Text('Description', style: TextStyle(color: Colors.black54)),
-            Text('Date:12/11/25'),
+            Text(taskModel.description, style: TextStyle(color: Colors.black54)),
+            Text('Date:${taskModel.createdDate}'),
             SizedBox(height: 8),
             Row(
               children: [
@@ -72,7 +74,7 @@ class TaskCard extends StatelessWidget {
     }
   }
 
-  String _getTaskTypeName(){
+   String _getTaskTypeName(){
     switch(taskType){
       case TaskType.tNew:
         return 'New';
