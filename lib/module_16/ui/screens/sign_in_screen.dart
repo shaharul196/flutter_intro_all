@@ -175,6 +175,9 @@ class _SignInScreenState extends State<SignInScreen> {
       body: requestBody, isFromLogin: true,
     );
 
+    _signInProgress = false;
+    setState(() {});
+
     if (response.isSuccess) {
         UserModel userModel = UserModel.fromJson(response.body!['data']);
         String token = response.body!['token'];
@@ -185,10 +188,11 @@ class _SignInScreenState extends State<SignInScreen> {
           context, MainNavigationBarScreen.name,
               (predicate) => false,
         );
+
+
+
     }else {
-        _signInProgress = false;
-        setState(() {});
-        showSnackBarMassage(context, response.errorMassage!);
+      showSnackBarMassage(context, response.errorMassage!);
     }
   }
 

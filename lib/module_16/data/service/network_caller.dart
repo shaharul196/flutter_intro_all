@@ -129,7 +129,7 @@ class NetworkCaller {
     debugPrint(
       '==================Request================\n'
       'URL: $url\n'
-      'HEADERS: $body\n'
+      'HEADERS: $headers\n'
       'BODY: $body\n'
       '=================================',
     );

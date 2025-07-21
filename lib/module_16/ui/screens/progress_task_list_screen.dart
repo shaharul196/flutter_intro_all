@@ -21,30 +21,34 @@ class _ProgressTaskListScreenState extends State<ProgressTaskListScreen> {
   @override
   void initState() {
     super.initState();
-    _getProgressTaskList();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _getProgressTaskList();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: Expanded(
-          child: Visibility(
-            visible: _getProgressTasksInProgress == false,
-            replacement: CenteredCircularProgressIndicator(),
-            child: ListView.builder(
-              itemCount: _progressTaskList.length,
-              itemBuilder: (context, index) {
-                return TaskCard(
-                  taskType: TaskType.progress,
-                  taskModel: _progressTaskList[index],
-                );
-              },
-            ),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: Expanded(
+        child: Visibility(
+          visible: _getProgressTasksInProgress == false,
+          replacement: CenteredCircularProgressIndicator(),
+          child: ListView.builder(
+            itemCount: _progressTaskList.length,
+            itemBuilder: (context, index) {
+              return TaskCard(
+                taskType: TaskType.progress,
+                taskModel: _progressTaskList[index],
+                onStatusUpdate: () {
+                  _getProgressTaskList();
+                },
+              );
+            },
           ),
-        )
+        ),
+      ),
     );
-
   }
 
   Future<void> _getProgressTaskList() async {
