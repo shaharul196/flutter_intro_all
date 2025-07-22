@@ -66,7 +66,10 @@ class _ProgressTaskListScreenState extends State<ProgressTaskListScreen> {
       }
       _progressTaskList = list;
     } else {
-      showSnackBarMassage(context, response.errorMassage!);
+      if(mounted){
+        showSnackBarMassage(context, response.errorMassage!);
+
+      }
     }
 
     _getProgressTasksInProgress = false;

@@ -8,6 +8,7 @@ import 'module_16/ui/screens/pin_varification_screen.dart';
 import 'module_16/ui/screens/sign_up_screen.dart';
 import 'module_16/ui/screens/splash_screen.dart';
 import 'module_16/ui/screens/update_profile_screen.dart';
+import 'package:get/get.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       navigatorKey: navigator,
       debugShowCheckedModeBanner: false,
 

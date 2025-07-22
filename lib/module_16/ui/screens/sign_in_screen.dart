@@ -11,6 +11,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/widget/snackbar_massage.dart';
 import '../widget/centered_circular_progress_indicator.dart';
 import 'main_navigation_bar_screen.dart';
+import 'package:get/get.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -184,10 +185,16 @@ class _SignInScreenState extends State<SignInScreen> {
 
         await AuthController.saveUserData(userModel, token);
 
-        Navigator.pushNamedAndRemoveUntil(
-          context, MainNavigationBarScreen.name,
-              (predicate) => false,
-        );
+        // Navigator.pushNamedAndRemoveUntil(
+        //   context, MainNavigationBarScreen.name,
+        //       (predicate) => false,
+        // );
+
+
+      // TODO getx navigation
+      // Get.to(() => const MainNavigationBarScreen());
+      // Get.toNamed(MainNavigationBarScreen.name);
+      Get.offAllNamed(MainNavigationBarScreen.name);
 
 
 

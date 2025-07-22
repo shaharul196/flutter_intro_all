@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:ostad_flutter_sazu/module_16/data/models/user_model.dart';
 import 'package:ostad_flutter_sazu/module_16/data/service/network_caller.dart';
 import 'package:ostad_flutter_sazu/module_16/data/urls.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/controllers/auth_controller.dart';
@@ -218,6 +219,9 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     if (mounted) {
       setState(() {});
     }
+
+    Uint8List? imageBytes;
+
     Map<String, String> requestBody = {
       "email": _emailTEController.text,
       "firstName": _firstNameTEController.text.trim(),
@@ -230,7 +234,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     }
 
     if (_selectedImage != null) {
-      Uint8List imageBytes = await _selectedImage!.readAsBytes();
+      imageBytes = await _selectedImage!.readAsBytes();
       requestBody['photo'] = base64Encode(imageBytes);
     }
 
@@ -238,22 +242,34 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       url: Urlss.updateProfileUrl,
       body: requestBody,
     );
-    _updateProfileInProgress =false;
-    if(mounted){
+    _updateProfileInProgress = false;
+    if (mounted) {
       setState(() {});
     }
 
-    if(response.isSuccess){
+    if (response.isSuccess) {
+      UserModel userModel = UserModel(
+        id: AuthController.userModel!.id,
+        email: _emailTEController.text,
+        firstName: _firstNameTEController.text.trim(),
+        lastName: _lastNameTEController.text.trim(),
+        mobile: _phoneNumberTEController.text.trim(),
+        photo:
+            imageBytes == null
+                ? AuthController.userModel?.photo
+                : base64Encode(imageBytes),
+      );
+      await AuthController.updateUserData(userModel);
+
       _passwordTEController.clear();
-      if(mounted){
+      if (mounted) {
         showSnackBarMassage(context, 'Profile updated');
       }
-    }else{
-      if(mounted){
+    } else {
+      if (mounted) {
         showSnackBarMassage(context, response.errorMassage!);
       }
     }
-
   }
 
   @override
