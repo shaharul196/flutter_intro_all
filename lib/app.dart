@@ -57,7 +57,8 @@ class MyApp extends StatelessWidget {
 
       ),
 
-      // home: SplashScreen(),
+      // TODO home: SplashScreen(),
+
       initialRoute: '/',
 
       // routes: {
