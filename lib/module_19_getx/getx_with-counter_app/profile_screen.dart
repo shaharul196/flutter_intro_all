@@ -1,25 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:ostad_flutter_sazu/module_19_getx/getx_with-counter_app/profile_screen.dart';
 import 'counter_controller.dart';
+import 'package:get/get.dart';
 
-// CounterController controller = CounterController();
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  final CounterController controller = Get.find<CounterController>();
+  // TODO getx dependencies Controller
+  // final CounterController controller = Get.find<CounterController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Counter app with getx'),
+        title: Text('Profile Screen'),
         backgroundColor: Colors.blue,
         centerTitle: true,
       ),
@@ -27,11 +20,12 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            GetBuilder(
-              init: controller,
+            GetBuilder<CounterController>(
+              // init: controller,
+              // TODO avabe (_) dite pari
               builder: (controller) {
                 return Text(
-                  '${controller.count}',
+                  controller.count.toString(),
                   style: TextStyle(
                     fontSize: 35,
                     color: Colors.black,
@@ -39,19 +33,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 );
               },
-            ),
-            SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ProfileScreen()),
-                );
-              },
-              child: Text(
-                'Go to Profile',
-                style: TextStyle(fontSize: 22, color: Colors.red),
-              ),
             ),
           ],
         ),
@@ -61,14 +42,15 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           FloatingActionButton(
             onPressed: () {
-              controller.decrement();
+              // TODO getx dependencies controller
+              Get.find<CounterController>().decrement();
             },
             child: Icon(Icons.remove),
           ),
           SizedBox(width: 16),
           FloatingActionButton(
             onPressed: () {
-              controller.increment();
+              Get.find<CounterController>().increment();
             },
             child: Icon(Icons.add),
           ),
