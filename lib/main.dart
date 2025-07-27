@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-// import 'app.dart';
-import 'app_1.dart';
+import 'app.dart';
+import 'app_getx.dart';
+// import 'app_1.dart';
 
 void main(){
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(CounterApp());
+  runApp(GetTaskMApp());
 }

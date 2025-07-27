@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/widget/centered_circular_progress_indicator.dart';
-import '../../data/models/task_model.dart';
+import '../../../module_16/data/models/task_model.dart';
 import '../../data/service/network_caller.dart';
 import '../../data/urls.dart';
 import '../widget/snackbar_massage.dart';
