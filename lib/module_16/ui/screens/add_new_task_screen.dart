@@ -3,7 +3,6 @@ import 'package:ostad_flutter_sazu/module_16/data/service/network_caller.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/widget/screen_background.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/widget/snackbar_massage.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/widget/tm_app_bar.dart';
-
 import '../../data/urls.dart';
 import '../widget/centered_circular_progress_indicator.dart';
 
@@ -115,9 +114,13 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
     if (response.isSuccess) {
       _titleTEController.clear();
       _descriptionTEController.clear();
-      showSnackBarMassage(context, 'Added new task');
+      if(mounted){
+        showSnackBarMassage(context, 'Added new task');
+      }
     } else {
-      showSnackBarMassage(context, response.errorMassage!);
+      if (mounted) {
+        showSnackBarMassage(context, response.errorMassage!);
+      }
     }
   }
 
