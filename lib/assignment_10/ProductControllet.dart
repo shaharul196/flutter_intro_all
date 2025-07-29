@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:ostad_flutter_sazu/assignment_3/utils/urls.dart';
+import 'package:ostad_flutter_sazu/assignment_10/utils/urls.dart';
 import 'models/productModel.dart';
 import 'package:http/http.dart' as http;
 

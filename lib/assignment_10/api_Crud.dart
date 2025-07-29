@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ostad_flutter_sazu/assignment_3/widget/productCard.dart';
+import 'package:ostad_flutter_sazu/assignment_10/widget/productCard.dart';
 import 'ProductControllet.dart';
 
 class Crudapi extends StatefulWidget {
