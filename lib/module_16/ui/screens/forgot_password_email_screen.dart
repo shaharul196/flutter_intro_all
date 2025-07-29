@@ -1,24 +1,34 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:ostad_flutter_sazu/module_16/data/service/network_caller.dart';
+import 'package:ostad_flutter_sazu/module_16/data/urls.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/screens/pin_varification_screen.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/screens/sign_up_screen.dart';
+import 'package:ostad_flutter_sazu/module_16/ui/widget/centered_circular_progress_indicator.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/widget/screen_background.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:ostad_flutter_sazu/module_16/ui/widget/snackbar_massage.dart';
 
 class ForgotPasswordEmailScreen extends StatefulWidget {
   const ForgotPasswordEmailScreen({super.key});
 
   static const String name = '/forgot-password-email';
 
-
   @override
-  State<ForgotPasswordEmailScreen> createState() => _ForgotPasswordEmailScreenState();
+  State<ForgotPasswordEmailScreen> createState() =>
+      _ForgotPasswordEmailScreenState();
 }
 
 class _ForgotPasswordEmailScreenState extends State<ForgotPasswordEmailScreen> {
-
   final TextEditingController _emailTEController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool _getRecoverVerifyEmailInProgress = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _getRecoverVerifyEmail(_emailTEController.text.trim());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,18 +51,18 @@ class _ForgotPasswordEmailScreenState extends State<ForgotPasswordEmailScreen> {
                   SizedBox(height: 5),
                   Text(
                     'A 6 digits OTP will be sent to your email address',
-                    style: Theme.of(context).textTheme.titleSmall ?.copyWith(
-                      color: Colors.grey,
-                    ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.titleSmall?.copyWith(color: Colors.grey),
                   ),
                   SizedBox(height: 24),
                   TextFormField(
                     controller: _emailTEController,
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(hintText: 'Email'),
-                    validator: (String? value){
+                    validator: (String? value) {
                       String email = value ?? '';
-                      if (EmailValidator.validate(email) == false){
+                      if (EmailValidator.validate(email) == false) {
                         return 'Enter a valid email';
                       }
                       return null;
@@ -60,12 +70,15 @@ class _ForgotPasswordEmailScreenState extends State<ForgotPasswordEmailScreen> {
                   ),
 
                   SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: _onTapSubmitButton,
-                    child: Icon(Icons.arrow_circle_right_outlined, size: 20),
+                  Visibility(
+                    visible: _getRecoverVerifyEmailInProgress == false,
+                    replacement: CenteredCircularProgressIndicator(),
+                    child: ElevatedButton(
+                      onPressed: _onTapSubmitButton,
+                      child: Icon(Icons.arrow_circle_right_outlined, size: 20),
+                    ),
                   ),
                   SizedBox(height: 32),
-
                   Center(
                     child: RichText(
                       text: TextSpan(
@@ -83,8 +96,8 @@ class _ForgotPasswordEmailScreenState extends State<ForgotPasswordEmailScreen> {
                               color: Colors.green,
                             ),
                             recognizer:
-                            TapGestureRecognizer()
-                              ..onTap = _onTapSignInButton,
+                                TapGestureRecognizer()
+                                  ..onTap = _onTapSignInButton,
                           ),
                         ],
                       ),
@@ -100,15 +113,35 @@ class _ForgotPasswordEmailScreenState extends State<ForgotPasswordEmailScreen> {
   }
 
   void _onTapSubmitButton() {
-    // if(_formKey.currentState!.validate()){
-    //   // TODO: Sign in with Api
-    // }
+    if(_formKey.currentState!.validate()){
+    _getRecoverVerifyEmail(_emailTEController.text.trim());
+    }
     Navigator.pushReplacementNamed(context, PinVerificationScreen.name);
   }
 
-
   void _onTapSignInButton() {
     Navigator.pushReplacementNamed(context, SignUpScreen.name);
+  }
+
+  Future<void> _getRecoverVerifyEmail(String email) async {
+    _getRecoverVerifyEmailInProgress = true;
+    setState(() {});
+
+    NetworkResponse response = await NetworkCaller.getRequest(
+      url: Urlss.getRecoverVerifyEmailUrl.toString(),
+    );
+
+    if(response.isSuccess) {
+      if (mounted) {
+        showSnackBarMassage(context, '6 digit otp sent');
+      }
+    }else {
+      if (mounted) {
+        showSnackBarMassage(context, response.errorMassage!);
+      }
+    }
+    _getRecoverVerifyEmailInProgress = false;
+    setState(() {});
   }
 
   @override
@@ -116,7 +149,4 @@ class _ForgotPasswordEmailScreenState extends State<ForgotPasswordEmailScreen> {
     _emailTEController.dispose();
     super.dispose();
   }
-
 }
-
-

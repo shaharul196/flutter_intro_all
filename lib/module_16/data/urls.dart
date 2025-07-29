@@ -14,6 +14,8 @@ class Urlss {
       '$_baseUrl/listTaskByStatus/Completed';
   static const String getCancelledTaskUrl =
       '$_baseUrl/listTaskByStatus/Cancelled';
+  static  String getRecoverVerifyEmailUrl (String email) =>
+      '$_baseUrl/RecoverVerifyEmail/$email';
 
 
 }

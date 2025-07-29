@@ -199,7 +199,9 @@ class _SignInScreenState extends State<SignInScreen> {
 
 
     }else {
-      showSnackBarMassage(context, response.errorMassage!);
+      if (mounted) {
+        showSnackBarMassage(context, response.errorMassage!);
+      }
     }
   }
 

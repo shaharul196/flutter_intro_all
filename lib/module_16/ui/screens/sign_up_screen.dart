@@ -165,27 +165,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _signUpInProgress = true;
     setState(() {});
     Map<String, String> requestBody = {
-        "email": _emailTEController.text.trim(),
-        "firstName":_firstNameTEController.text.trim(),
-        "lastName":_lastNameTEController.text.trim(),
-        "mobile":_phoneNumberTEController.text.trim(),
-        "password":_passwordTEController.text,
+      "email": _emailTEController.text.trim(),
+      "firstName": _firstNameTEController.text.trim(),
+      "lastName": _lastNameTEController.text.trim(),
+      "mobile": _phoneNumberTEController.text.trim(),
+      "password": _passwordTEController.text,
     };
     NetworkResponse response = await NetworkCaller.postRequest(
-      url: Urlss.registationUrl, body: requestBody,
+      url: Urlss.registationUrl,
+      body: requestBody,
     );
 
     _signUpInProgress = false;
     setState(() {});
-    if(response.isSuccess){
+    if (response.isSuccess) {
       _clearTextFields();
-      showSnackBarMassage(context, 'Registation has been success.Please login');
-    }else{
-      showSnackBarMassage(context, response.errorMassage!);
+      if (mounted) {
+        showSnackBarMassage(
+          context,
+          'Registration has been success.Please login',
+        );
+      }
+    } else {
+      if (mounted) {
+        showSnackBarMassage(context, response.errorMassage!);
+      }
     }
   }
 
-  void _clearTextFields(){
+  void _clearTextFields() {
     _emailTEController.clear();
     _firstNameTEController.clear();
     _lastNameTEController.clear();
