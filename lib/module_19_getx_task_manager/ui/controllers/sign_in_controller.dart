@@ -5,6 +5,7 @@ import '../../../module_16/data/urls.dart';
 import '../../../module_16/ui/controllers/auth_controller.dart';
 
 class SignInController extends GetxController{
+  // TODO getx controller objective ai page ta signIn kotre parlo ki parlo na
   bool _inProgress = false;
   String? _errorMessage;
 

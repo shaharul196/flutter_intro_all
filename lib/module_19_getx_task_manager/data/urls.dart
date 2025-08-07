@@ -6,6 +6,10 @@ class Urlss {
   static const String getNewTaskUrl = '$_baseUrl/listTaskByStatus/New';
   static const String getProgressTaskUrl =
       '$_baseUrl/listTaskByStatus/Progress';
+  static const String getCompletedTaskUrl =
+      '$_baseUrl/listTaskByStatus/Progress';
+  static const String getCancelledTaskUrl =
+      '$_baseUrl/listTaskByStatus/Progress';
   static const String getTaskStatusCountUrl = '$_baseUrl/taskStatusCount';
   static String updateTaskStatusUrl(String taskId, String status) =>
       '$_baseUrl/updateTaskStatus/$taskId/$status';

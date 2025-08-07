@@ -4,7 +4,6 @@ import 'package:ostad_flutter_sazu/module_16/data/service/network_caller.dart';
 import 'package:ostad_flutter_sazu/module_16/data/urls.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/widget/centered_circular_progress_indicator.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/widget/snackbar_massage.dart';
-
 import '../widget/task_card.dart';
 
 class CancelledTaskListScreen extends StatefulWidget {

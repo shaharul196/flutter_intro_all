@@ -25,6 +25,7 @@ class _SignInScreenState extends State<SignInScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool obscureText = true;
   // final SignInController _signInController = SignInController();
+
   final SignInController _signInController = Get.find<SignInController>();
 
 
