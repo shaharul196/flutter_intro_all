@@ -16,6 +16,9 @@ class Urlss {
       '$_baseUrl/listTaskByStatus/Cancelled';
   static  String getRecoverVerifyEmailUrl (String email) =>
       '$_baseUrl/RecoverVerifyEmail/$email';
+  static String getVerifyOTPUrl (String email,String otp) =>
+      '$_baseUrl/RecoverVerifyOtp/$email/$otp';
+  static String getResetPasswordUrl = '$_baseUrl/RecoverResetPassword';
 
 
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:ostad_flutter_sazu/module_16/data/models/reset_model.dart';
+import 'package:ostad_flutter_sazu/module_16/data/models/task_model.dart';
 import 'package:ostad_flutter_sazu/module_16/data/service/network_caller.dart';
 import 'package:ostad_flutter_sazu/module_16/data/urls.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/screens/pin_varification_screen.dart';
@@ -25,10 +27,12 @@ class _ForgotPasswordEmailScreenState extends State<ForgotPasswordEmailScreen> {
   bool _getRecoverVerifyEmailInProgress = false;
 
   @override
-  void initState() {
-    super.initState();
-    _getRecoverVerifyEmail(_emailTEController.text.trim());
-  }
+  // void initState() {
+  //   super.initState();
+  //   WidgetsBinding.instance.addPostFrameCallback((_){
+  //     _getRecoverVerifyEmail();
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -114,26 +118,28 @@ class _ForgotPasswordEmailScreenState extends State<ForgotPasswordEmailScreen> {
 
   void _onTapSubmitButton() {
     if(_formKey.currentState!.validate()){
-    _getRecoverVerifyEmail(_emailTEController.text.trim());
+      _getRecoverVerifyEmail();
     }
-    Navigator.pushReplacementNamed(context, PinVerificationScreen.name);
+    // Navigator.pushReplacementNamed(context, PinVerificationScreen.name);
   }
 
   void _onTapSignInButton() {
     Navigator.pushReplacementNamed(context, SignUpScreen.name);
   }
 
-  Future<void> _getRecoverVerifyEmail(String email) async {
+  Future<void> _getRecoverVerifyEmail() async {
     _getRecoverVerifyEmailInProgress = true;
     setState(() {});
 
     NetworkResponse response = await NetworkCaller.getRequest(
-      url: Urlss.getRecoverVerifyEmailUrl.toString(),
+      url: Urlss.getRecoverVerifyEmailUrl(_emailTEController.text.trim()),
     );
 
     if(response.isSuccess) {
-      if (mounted) {
-        showSnackBarMassage(context, '6 digit otp sent');
+      final String data = response.body!["data"];
+      ResetModel.email = _emailTEController.text;
+      if(mounted) {
+        Navigator.pushReplacementNamed(context, PinVerificationScreen.name);
       }
     }else {
       if (mounted) {

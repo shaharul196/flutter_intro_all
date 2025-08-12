@@ -3,7 +3,6 @@ import 'package:ostad_flutter_sazu/module_16/data/models/task_model.dart';
 import 'package:ostad_flutter_sazu/module_16/data/service/network_caller.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/widget/centered_circular_progress_indicator.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/widget/snackbar_massage.dart';
-
 import '../../data/urls.dart';
 
 enum TaskType { tNew, progress, completed, cancelled }

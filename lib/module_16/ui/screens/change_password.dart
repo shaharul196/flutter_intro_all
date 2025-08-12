@@ -1,23 +1,28 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:ostad_flutter_sazu/module_16/data/models/reset_model.dart';
+import 'package:ostad_flutter_sazu/module_16/data/service/network_caller.dart';
+import 'package:ostad_flutter_sazu/module_16/data/urls.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/screens/sign_in_screen.dart';
+import 'package:ostad_flutter_sazu/module_16/ui/widget/centered_circular_progress_indicator.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/widget/screen_background.dart';
+import 'package:ostad_flutter_sazu/module_16/ui/widget/snackbar_massage.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({super.key});
 
   static const String name = '/change-password';
 
-
   @override
   State<ChangePasswordScreen> createState() => _ChangePasswordScreenState();
 }
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
-
   final TextEditingController _passwordTEController = TextEditingController();
-  final TextEditingController _confirmPasswordTEController = TextEditingController();
+  final TextEditingController _confirmPasswordTEController =
+      TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool _resetPasswordinProgress = false;
 
   @override
   Widget build(BuildContext context) {
@@ -40,41 +45,41 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   SizedBox(height: 5),
                   Text(
                     'Password Should be more than 6 letters',
-                    style: Theme.of(context).textTheme.titleSmall ?.copyWith(
-                      color: Colors.grey,
-                    ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.titleSmall?.copyWith(color: Colors.grey),
                   ),
                   SizedBox(height: 24),
                   TextFormField(
                     controller: _passwordTEController,
-                    decoration: InputDecoration(
-                      hintText: 'Password',
-                    ),
-                      validator: (String? value){
-                        if((value?.length ?? 0) <= 6){
-                          return 'Enter a valid password';
-                        }
-                        return null;
+                    decoration: InputDecoration(hintText: 'Password'),
+                    validator: (String? value) {
+                      if ((value?.length ?? 0) <= 6) {
+                        return 'Enter a valid password';
                       }
+                      return null;
+                    },
                   ),
                   SizedBox(height: 16),
                   TextFormField(
                     controller: _confirmPasswordTEController,
-                    decoration: InputDecoration(
-                      hintText: 'Confirm Password',
-                    ),
-                      validator: (String? value){
-                        if((value ?? '') != _passwordTEController.text){
-                          return "Confirm password doesn't match";
-                        }
-                        return null;
+                    decoration: InputDecoration(hintText: 'Confirm Password'),
+                    validator: (String? value) {
+                      if ((value ?? '') != _passwordTEController.text) {
+                        return "Confirm password doesn't match";
                       }
+                      return null;
+                    },
                   ),
                   SizedBox(height: 16),
 
-                  ElevatedButton(
-                    onPressed: _onTapSubmitButton,
-                    child: Text('Confirm'),
+                  Visibility(
+                    visible: _resetPasswordinProgress == false,
+                    replacement: CenteredCircularProgressIndicator(),
+                    child: ElevatedButton(
+                      onPressed: _onTapSubmitButton,
+                      child: Text('Confirm'),
+                    ),
                   ),
                   SizedBox(height: 32),
 
@@ -95,8 +100,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               color: Colors.green,
                             ),
                             recognizer:
-                            TapGestureRecognizer()
-                              ..onTap = _onTapSignInButton,
+                                TapGestureRecognizer()
+                                  ..onTap = _onTapSignInButton,
                           ),
                         ],
                       ),
@@ -112,14 +117,44 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   }
 
   void _onTapSubmitButton() {
-    if(_formKey.currentState!.validate()){
-      // TODO: Sign in with Api
+    if (_formKey.currentState!.validate()) {
+      _resetPassword();
     }
   }
 
-
   void _onTapSignInButton() {
-    Navigator.pushNamedAndRemoveUntil(context, SignInScreen.name, (predicate) => false);
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      SignInScreen.name,
+      (predicate) => false,
+    );
+  }
+
+  Future<void> _resetPassword() async {
+    _resetPasswordinProgress = true;
+    setState(() {});
+
+    Map<String, String> requestBody = {
+      "email": ResetModel.email,
+      "OTP": ResetModel.otp,
+      "password": _passwordTEController.text,
+    };
+
+    NetworkResponse response = await NetworkCaller.postRequest(
+      url: Urlss.getResetPasswordUrl,
+      body: requestBody,
+    );
+    if (response.isSuccess) {
+      if(mounted) {
+        showSnackBarMassage(context, 'Password Changed Successfully');
+      }
+      Navigator.pushNamedAndRemoveUntil(context, SignInScreen.name, (predicate) =>false);
+    }else{
+      showSnackBarMassage(context, response.errorMassage!);
+    }
+
+    _resetPasswordinProgress =false;
+    setState(() {});
   }
 
   @override
@@ -128,7 +163,4 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     _confirmPasswordTEController.dispose();
     super.dispose();
   }
-
 }
-
-
