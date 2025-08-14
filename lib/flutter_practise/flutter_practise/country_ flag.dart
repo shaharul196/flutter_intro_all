@@ -5,6 +5,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -33,6 +35,8 @@ class ResponsiveFlag extends StatelessWidget {
     {'name': 'Canada', 'flag': 'https://flagcdn.com/w320/ca.png'},
     {'name': 'Italy', 'flag': 'https://flagcdn.com/w320/it.png'},
   ];
+
+   ResponsiveFlag({super.key});
 
   @override
   Widget build(BuildContext context) {

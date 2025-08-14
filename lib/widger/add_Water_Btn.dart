@@ -16,7 +16,7 @@ class addWaterBtn extends StatelessWidget {
         padding: const EdgeInsets.all(12.0),
         child: ElevatedButton.icon(onPressed: onClick,style: ElevatedButton.styleFrom(
           backgroundColor: Colors.blue,
-        ), label: Text('+${amount} LTR',
+        ), label: Text('+$amount LTR',
           style: TextStyle(
             fontSize: 25,
             fontWeight: FontWeight.bold,

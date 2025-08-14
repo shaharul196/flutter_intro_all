@@ -270,7 +270,7 @@ class _LocationScreenState extends State<LocationScreen> {
               'Lat:${_currentLocation?.latitude} Long:${_currentLocation?.longitude}',
             ),
             Text(_currentLocation?.isMocked.toString() ?? ''),
-            Text('Live Location: ${_liveLocation}'),
+            Text('Live Location: $_liveLocation'),
           ],
         ),
       ),

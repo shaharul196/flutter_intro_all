@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ostad_flutter_sazu/flutter_practise/practise_all.dart';
-import '../flutter_practise/flutter_prcs_2.dart';
 import '../module_9/aspect_ratio.dart';
-import '../module_9/drawer.dart';
 
 
 class navigationall extends StatefulWidget {

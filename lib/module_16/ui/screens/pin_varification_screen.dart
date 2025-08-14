@@ -1,24 +1,29 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:ostad_flutter_sazu/assignment_3/ui/widget/snackbar_massage.dart';
+import 'package:ostad_flutter_sazu/module_16/data/models/reset_model.dart';
+import 'package:ostad_flutter_sazu/module_16/data/service/network_caller.dart';
+import 'package:ostad_flutter_sazu/module_16/data/urls.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/screens/sign_in_screen.dart';
+import 'package:ostad_flutter_sazu/module_16/ui/widget/centered_circular_progress_indicator.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/widget/screen_background.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'change_password.dart';
 
 class PinVerificationScreen extends StatefulWidget {
-  const PinVerificationScreen({super.key});
+  const PinVerificationScreen({super.key, required this.email});
+  final String email;
 
   static const String name = '/pin-verification';
-
 
   @override
   State<PinVerificationScreen> createState() => _PinVerificationScreenState();
 }
 
 class _PinVerificationScreenState extends State<PinVerificationScreen> {
-
   final TextEditingController _otpTEController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool _pinVerifyOTPinProgress = false;
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +46,9 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
                   SizedBox(height: 5),
                   Text(
                     'A 6 digits OTP has been sent to your email address',
-                    style: Theme.of(context).textTheme.titleSmall ?.copyWith(
-                      color: Colors.grey,
-                    ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.titleSmall?.copyWith(color: Colors.grey),
                   ),
                   SizedBox(height: 24),
 
@@ -66,15 +71,18 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
                     appContext: context,
                   ),
 
-
                   SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: _onTapSubmitButton,
-                    child: Text('Verity'),
+                  Visibility(
+                    visible: _pinVerifyOTPinProgress == false,
+                    replacement: CenteredCircularProgressIndicator(),
+                    child: ElevatedButton(
+                      onPressed: _onTapSubmitButton,
+                      child: Text('Verity'),
+                    ),
                   ),
                   SizedBox(height: 32),
 
-                   Center(
+                  Center(
                     child: RichText(
                       text: TextSpan(
                         text: " Have an account? ",
@@ -91,8 +99,8 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
                               color: Colors.green,
                             ),
                             recognizer:
-                            TapGestureRecognizer()
-                              ..onTap = _onTapSignInButton,
+                                TapGestureRecognizer()
+                                  ..onTap = _onTapSignInButton,
                           ),
                         ],
                       ),
@@ -108,23 +116,83 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
   }
 
   void _onTapSubmitButton() {
-    // if(_formKey.currentState!.validate()){
-    //   // TODO: Sign in with Api
-    // }
-    Navigator.pushNamed(context, ChangePasswordScreen.name);
+    if (_formKey.currentState!.validate()) {
+      _verifyOTP();
+    }
+    // Navigator.pushNamed(context, ChangePasswordScreen.name);
   }
-
 
   void _onTapSignInButton() {
-    Navigator.pushNamedAndRemoveUntil(context, SignInScreen.name, (predicate) => false);
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      SignInScreen.name,
+      (predicate) => false,
+    );
   }
+
+  Future<void> _verifyOTP() async {
+    _pinVerifyOTPinProgress = true;
+    if(mounted) setState(() {});
+
+    // final requestBody= {
+    //   "otp": _otpTEController.text.trim(),
+    //   "email": widget.email.trim(),
+    // };
+
+    NetworkResponse response = await NetworkCaller.getRequest(
+      url: Urlss.getVerifyOTPUrl(_otpTEController.text,widget.email),
+    );
+
+    if(!mounted) return;
+
+    if (response.isSuccess) {
+      final String data = response.body!["data"];
+      ResetModel.otp = _otpTEController.text;
+      _otpTEController.clear();
+      if(mounted) {
+        Navigator.pushNamed(context, ChangePasswordScreen.name);
+      }
+    } else {
+      _otpTEController.clear();
+      if (mounted) {
+        showSnackBarMassage(context, response.errorMassage!);
+      }
+    }
+    _pinVerifyOTPinProgress = false;
+    setState(() {});
+  }
+
+  //TODO pin verification
+  // Future<void> _verifyOTP() async {
+  //   _pinVerifyOTPinProgress = true;
+  //   if (mounted) setState(() {});
+  //
+  //   NetworkResponse response = await NetworkCaller.getRequest(
+  //     url: Urlss.getVerifyOTPUrl(widget.email, _otpTEController.text),
+  //   );
+  //
+  //   if (!mounted) return;
+  //
+  //   _pinVerifyOTPinProgress = false;
+  //   setState(() {});
+  //
+  //   if (response.isSuccess) {
+  //     ResetModel.otp = _otpTEController.text;
+  //     _otpTEController.clear(); // safe because mounted checked
+  //     showSnackBarMassage(context, response.body!['data']);
+  //     Navigator.pushNamed(context, ChangePasswordScreen.name);
+  //   } else {
+  //     _otpTEController.clear(); // safe because mounted checked
+  //     showSnackBarMassage(context, response.errorMassage!);
+  //   }
+  // }
+
+
+
 
   @override
   void dispose() {
     _otpTEController.dispose();
     super.dispose();
   }
-
 }
-
-

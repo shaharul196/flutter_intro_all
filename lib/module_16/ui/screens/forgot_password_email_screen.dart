@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:ostad_flutter_sazu/module_16/data/models/reset_model.dart';
-import 'package:ostad_flutter_sazu/module_16/data/models/task_model.dart';
 import 'package:ostad_flutter_sazu/module_16/data/service/network_caller.dart';
 import 'package:ostad_flutter_sazu/module_16/data/urls.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/screens/pin_varification_screen.dart';

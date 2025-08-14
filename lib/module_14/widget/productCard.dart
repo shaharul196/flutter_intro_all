@@ -15,7 +15,7 @@ class productCard extends StatelessWidget {
     return Container(
       child: Column(
         children: [
-          Container(
+          SizedBox(
             height: 140,
             child: Image.network(
               height: 140,

@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:ostad_flutter_sazu/module_16/data/models/task_model.dart';
-import '../../../module_19_getx_task_manager//data/models/task_model.dart';
 import '../../../module_19_getx_task_manager//data/urls.dart';
 import '../../../module_19_getx_task_manager//data/service/network_caller.dart';
 

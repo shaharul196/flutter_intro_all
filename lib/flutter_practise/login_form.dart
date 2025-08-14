@@ -5,7 +5,7 @@ class loginformall extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _formvana = GlobalKey<FormState>();
+    final formvana = GlobalKey<FormState>();
     TextEditingController phoneController = TextEditingController();
     TextEditingController passwordController= TextEditingController();
 
@@ -32,7 +32,7 @@ class loginformall extends StatelessWidget {
             SizedBox(height: 20),
 
             Form(
-              key: _formvana,
+              key: formvana,
               child: Column(
                 children: [
                   TextFormField(
@@ -103,7 +103,7 @@ class loginformall extends StatelessWidget {
 
               ElevatedButton(
               onPressed: () {
-                if (_formvana.currentState!.validate()) {
+                if (formvana.currentState!.validate()) {
                   ScaffoldMessenger.of(
                     context,
                   ).showSnackBar(SnackBar(content: Text('Login Successful')));

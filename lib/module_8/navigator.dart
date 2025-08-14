@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../flutter_practise/flutter_prcs_2.dart';
-import 'listview.dart';
 
 
 void main(){
@@ -36,7 +35,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     TextEditingController phoneController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
 
@@ -71,7 +70,7 @@ class _HomeState extends State<Home> {
               ),
         
               Form(
-                  key: _formKey,
+                  key: formKey,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -123,7 +122,7 @@ class _HomeState extends State<Home> {
                       SizedBox(
                         width: 300,
                         child: ElevatedButton(onPressed: (){
-                          if(_formKey.currentState!.validate()){
+                          if(formKey.currentState!.validate()){
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text('Login Successful')),
                             );

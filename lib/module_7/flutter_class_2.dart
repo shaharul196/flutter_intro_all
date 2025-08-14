@@ -150,8 +150,8 @@ class Home extends StatelessWidget {
       floatingActionButton: FloatingActionButton(onPressed: (){
         print('floating action button pressed');
       },
-        child: Icon(Icons.add),
         backgroundColor: Colors.cyan,
+        child: Icon(Icons.add),
 
       ),
 

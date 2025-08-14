@@ -80,7 +80,7 @@ class _WaterTrackerState extends State<WaterTracker> {
               Stack(
                 alignment: Alignment.center,
                 children: [
-                  Container(
+                  SizedBox(
                     height: 160,
                     width: 160,
                     child: CircularProgressIndicator(

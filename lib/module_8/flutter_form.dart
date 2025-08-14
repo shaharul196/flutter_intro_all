@@ -30,7 +30,7 @@ class _HomeState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     TextEditingController phoneController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
 
@@ -62,7 +62,7 @@ class _HomeState extends State<LoginPage> {
               ),
 
               Form(
-                  key: _formKey,
+                  key: formKey,
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -114,7 +114,7 @@ class _HomeState extends State<LoginPage> {
                  SizedBox(
                    width: 300,
                    child: ElevatedButton(onPressed: (){
-                     if(_formKey.currentState!.validate()){
+                     if(formKey.currentState!.validate()){
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('Login Successful')),
                       );

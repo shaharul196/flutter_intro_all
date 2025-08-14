@@ -16,7 +16,7 @@ class MainNavigationBarScreen extends StatefulWidget {
 }
 
 class _MainNavigationBarScreenState extends State<MainNavigationBarScreen> {
-  List<Widget> _screens = [
+  final List<Widget> _screens = [
     NewTaskListScreen(),
     ProgressTaskListScreen(),
     CompletedTaskListScreen(),

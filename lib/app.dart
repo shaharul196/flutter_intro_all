@@ -70,7 +70,7 @@ class MyApp extends StatelessWidget {
         SignInScreen.name: (context) => SignInScreen(),
         SignUpScreen.name: (context) => SignUpScreen(),
         ForgotPasswordEmailScreen.name: (context) => ForgotPasswordEmailScreen(),
-        PinVerificationScreen.name: (context) => PinVerificationScreen(),
+        PinVerificationScreen.name: (context) => PinVerificationScreen(email: 'sazurana1@gmail.com',),
         ChangePasswordScreen.name: (context) => ChangePasswordScreen(),
         MainNavigationBarScreen.name: (context) => MainNavigationBarScreen(),
         AddNewTaskScreen.name: (context) => AddNewTaskScreen(),
