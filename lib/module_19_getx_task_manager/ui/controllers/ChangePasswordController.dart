@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:ostad_flutter_sazu/module_16/data/models/reset_model.dart';
 import 'package:ostad_flutter_sazu/module_16/data/service/network_caller.dart';
 import 'package:ostad_flutter_sazu/module_16/data/urls.dart';
-import 'package:ostad_flutter_sazu/module_19_getx_task_manager/ui/widget/snackbar_massage.dart';
 
 class ChangePasswordController extends GetxController {
   bool _inProgress = false;
