@@ -14,7 +14,6 @@ class PinVerificationController extends GetxController {
     bool isSuccess = false;
     _inProgress = true;
     update();
-    // if(mounted) setState(() {});
 
     NetworkResponse response = await NetworkCaller.getRequest(
       url: Urlss.getVerifyOTPUrl(email,otp),

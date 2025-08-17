@@ -149,7 +149,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
 
   void _onTapSignInButton() {
-    Navigator.pushNamedAndRemoveUntil(context, SignInScreen.name, (predicate) => false);
+    Get.offAllNamed(SignInScreen.name);
+    // Navigator.pushNamedAndRemoveUntil(context, SignInScreen.name, (predicate) => false);
   }
 
   @override

@@ -1,12 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:ostad_flutter_sazu/module_16/data/service/network_caller.dart';
+import 'package:get/get.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/screens/sign_in_screen.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/widget/screen_background.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:ostad_flutter_sazu/module_16/data/urls.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/widget/snackbar_massage.dart';
-
+import 'package:ostad_flutter_sazu/module_19_getx_task_manager/ui/controllers/SignUpController.dart';
 import '../widget/centered_circular_progress_indicator.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -26,7 +25,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       TextEditingController();
   final TextEditingController _passwordTEController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool _signUpInProgress = false;
+  final SignUpController _signUpController = Get.find<SignUpController>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -111,13 +111,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     },
                   ),
                   SizedBox(height: 16),
-                  Visibility(
-                    visible: _signUpInProgress == false,
-                    replacement: CenteredCircularProgressIndicator(),
-                    child: ElevatedButton(
-                      onPressed: _onTapSignUpButton,
-                      child: Icon(Icons.arrow_circle_right_outlined, size: 20),
-                    ),
+                  GetBuilder<SignUpController>(
+                    builder: (controller) {
+                      return Visibility(
+                        visible: controller.inProgress == false,
+                        replacement: CenteredCircularProgressIndicator(),
+                        child: ElevatedButton(
+                          onPressed: _onTapSignUpButton,
+                          child: Icon(Icons.arrow_circle_right_outlined, size: 20),
+                        ),
+                      );
+                    }
                   ),
                   SizedBox(height: 32),
 
@@ -156,33 +160,55 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   void _onTapSignUpButton() {
     if (_formKey.currentState!.validate()) {
-      _SignUp();
+      _signUp();
     }
   }
 
-  Future<void> _SignUp() async {
-    _signUpInProgress = true;
-    setState(() {});
-    Map<String, String> requestBody = {
-        "email": _emailTEController.text.trim(),
-        "firstName":_firstNameTEController.text.trim(),
-        "lastName":_lastNameTEController.text.trim(),
-        "mobile":_phoneNumberTEController.text.trim(),
-        "password":_passwordTEController.text,
-    };
-    NetworkResponse response = await NetworkCaller.postRequest(
-      url: Urlss.registationUrl, body: requestBody,
+  Future<void> _signUp() async {
+    bool isSuccess = await _signUpController.signUp(
+        _emailTEController.text.trim(),
+        _firstNameTEController.text.trim(),
+        _lastNameTEController.text.trim(),
+        _phoneNumberTEController.text.trim(),
+        _passwordTEController.text,
     );
 
-    _signUpInProgress = false;
-    setState(() {});
-    if(response.isSuccess){
+    if(isSuccess) {
       _clearTextFields();
-      showSnackBarMassage(context, 'Registation has been success.Please login');
+      if (mounted) {
+        showSnackBarMassage(
+            context, 'Registration has been success.Please login');
+      }
     }else{
-      showSnackBarMassage(context, response.errorMassage!);
+      if(mounted){
+        showSnackBarMassage(context, _signUpController.errorMessage!);
+      }
     }
   }
+
+  // Future<void> _SignUp() async {
+  //   _signUpInProgress = true;
+  //   setState(() {});
+  //   Map<String, String> requestBody = {
+  //       "email": _emailTEController.text.trim(),
+  //       "firstName":_firstNameTEController.text.trim(),
+  //       "lastName":_lastNameTEController.text.trim(),
+  //       "mobile":_phoneNumberTEController.text.trim(),
+  //       "password":_passwordTEController.text,
+  //   };
+  //   NetworkResponse response = await NetworkCaller.postRequest(
+  //     url: Urlss.registationUrl, body: requestBody,
+  //   );
+  //
+  //   _signUpInProgress = false;
+  //   setState(() {});
+  //   if(response.isSuccess){
+  //     _clearTextFields();
+  //     showSnackBarMassage(context, 'Registation has been success.Please login');
+  //   }else{
+  //     showSnackBarMassage(context, response.errorMassage!);
+  //   }
+  // }
 
   void _clearTextFields(){
     _emailTEController.clear();
@@ -193,8 +219,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void _onTapSignInButton() {
-    // Navigator.pop(context);
-    Navigator.pushReplacementNamed(context, SignInScreen.name);
+    Get.offNamed(SignInScreen.name);
+    // Navigator.pushReplacementNamed(context, SignInScreen.name);
   }
 
   @override

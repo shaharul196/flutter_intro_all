@@ -15,10 +15,6 @@ class ForgotPasswordController extends GetxController {
     _inProgress = true;
     update();
 
-    // Map<String, String> requestBody = {
-    //   "email" :email,
-    // };
-
     NetworkResponse response = await NetworkCaller.getRequest(
       url: Urlss.getRecoverVerifyEmailUrl(email),
     );

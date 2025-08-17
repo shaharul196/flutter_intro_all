@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:ostad_flutter_sazu/module_16/data/models/reset_model.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/screens/sign_in_screen.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/widget/centered_circular_progress_indicator.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/widget/screen_background.dart';
@@ -143,7 +142,8 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
 
 
   void _onTapSignInButton() {
-    Navigator.pushNamedAndRemoveUntil(context, SignInScreen.name, (predicate) => false);
+    Get.offAllNamed(SignInScreen.name);
+    // Navigator.pushNamedAndRemoveUntil(context, SignInScreen.name, (predicate) => false);
   }
 
   @override

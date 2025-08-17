@@ -11,6 +11,7 @@ import 'package:ostad_flutter_sazu/module_16/ui/widget/screen_background.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/widget/snackbar_massage.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/widget/tm_app_bar.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:get/get.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
   const UpdateProfileScreen({super.key});
@@ -210,8 +211,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   }
 
   void _onTapSignInButton() {
-    // Navigator.pop(context);
-    Navigator.pushReplacementNamed(context, SignInScreen.name);
+    Get.offNamed(SignInScreen.name);
+    // Navigator.pushReplacementNamed(context, SignInScreen.name);
   }
 
   Future<void> _updateProfile() async {

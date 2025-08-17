@@ -5,6 +5,7 @@ import 'package:ostad_flutter_sazu/module_16/ui/screens/main_navigation_bar_scre
 import 'package:ostad_flutter_sazu/module_16/ui/screens/sign_in_screen.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/widget/screen_background.dart';
 import '../utils/asset_paths.dart';
+import 'package:get/get.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -28,9 +29,10 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(Duration(seconds: 2));
     bool isloggedIn = await AuthController.isUserloggedIn();
     if(isloggedIn){
-      Navigator.pushReplacementNamed(context, MainNavigationBarScreen.name);
+      Get.offNamed(MainNavigationBarScreen.name);
+      // Navigator.pushReplacementNamed(context, MainNavigationBarScreen.name);
     }else{
-      Navigator.pushReplacementNamed(context, SignInScreen.name);
+      Get.offNamed(SignInScreen.name);
     }
   }
 
