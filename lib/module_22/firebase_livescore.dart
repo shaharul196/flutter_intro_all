@@ -49,19 +49,20 @@ class _HomeScreenFirebaseState extends State<HomeScreenFirebase> {
         stream: db.collection('football').snapshots(),
         builder: (
           context,
-          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshots,) {
-
-          if(snapshots.connectionState == ConnectionState.waiting){
-            return Center(child: CircularProgressIndicator(),);
+          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshots,
+        ) {
+          if (snapshots.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
           }
 
-          if(snapshots.hasError){
-            return Center(child: Text(snapshots.error.toString()),);
+          if (snapshots.hasError) {
+            return Center(child: Text(snapshots.error.toString()));
           }
 
-          if(snapshots.hasData){
+          if (snapshots.hasData) {
             _listOfScore.clear();
-            for (QueryDocumentSnapshot<Map<String, dynamic>> doc in snapshots.data!.docs) {
+            for (QueryDocumentSnapshot<Map<String, dynamic>> doc
+                in snapshots.data!.docs) {
               LiveScore liveScore = LiveScore(
                 id: doc.id,
                 team1Name: doc.get('team1_name'),
@@ -80,6 +81,10 @@ class _HomeScreenFirebaseState extends State<HomeScreenFirebase> {
             itemBuilder: (context, index) {
               LiveScore liveScore = _listOfScore[index];
               return ListTile(
+                onLongPress: () {
+                  // TODO delete kora
+                  db.collection('football').doc(liveScore.id).delete();
+                },
                 leading: CircleAvatar(
                   radius: 10,
                   backgroundColor:
@@ -110,6 +115,25 @@ class _HomeScreenFirebaseState extends State<HomeScreenFirebase> {
           );
         },
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          LiveScore liveScore = LiveScore(
+            id: 'argvsgermany',
+            team1Name: 'Argentina',
+            team2Name: 'Germany',
+            team1Score: 1,
+            team2Score: 4,
+            isRunning: true,
+            winnerTeam: '',
+          );
+          await db
+              .collection('football')
+              .doc(liveScore.id)
+              // TODO set is data kora
+              .set(liveScore.toMap());
+        },
+        child: Icon(Icons.add),
+      ),
     );
   }
 }
@@ -132,4 +156,16 @@ class LiveScore {
     required this.isRunning,
     required this.winnerTeam,
   });
+
+  // TODO data add kora jonno
+  Map<String, dynamic> toMap() {
+    return {
+      'team1_name': team1Name,
+      'team2_name': team2Name,
+      'team1_score': team1Score,
+      'team2_score': team2Score,
+      'is_running': isRunning,
+      'winner_team': winnerTeam,
+    };
+  }
 }
