@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1002589397108",
+    "project_id": "fir-practise-67120",
+    "storage_bucket": "fir-practise-67120.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1002589397108:android:67bbfdaf25e62c2e967121",
+        "android_client_info": {
+          "package_name": "com.example.ostad_flutter_sazu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1nHq8V00LhR5m1G6vNg66ABS0eJwpkiQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
