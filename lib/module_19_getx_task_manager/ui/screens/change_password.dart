@@ -1,7 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:ostad_flutter_sazu/module_16/data/models/reset_model.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/screens/sign_in_screen.dart';
+import 'package:ostad_flutter_sazu/module_16/ui/widget/centered_circular_progress_indicator.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/widget/screen_background.dart';
+import 'package:ostad_flutter_sazu/module_16/ui/widget/snackbar_massage.dart';
+import 'package:ostad_flutter_sazu/module_19_getx_task_manager/ui/controllers/ChangePasswordController.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({super.key});
@@ -18,6 +23,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   final TextEditingController _passwordTEController = TextEditingController();
   final TextEditingController _confirmPasswordTEController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final ChangePasswordController _changePasswordController = Get.find<ChangePasswordController>();
 
   @override
   Widget build(BuildContext context) {
@@ -72,9 +78,17 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   ),
                   SizedBox(height: 16),
 
-                  ElevatedButton(
-                    onPressed: _onTapSubmitButton,
-                    child: Text('Confirm'),
+                  GetBuilder<ChangePasswordController>(
+                    builder: (controller) {
+                      return Visibility(
+                        visible: controller.inProgress == false,
+                        replacement: CenteredCircularProgressIndicator(),
+                        child: ElevatedButton(
+                          onPressed: _onTapSubmitButton,
+                          child: Text('Confirm'),
+                        ),
+                      );
+                    }
                   ),
                   SizedBox(height: 32),
 
@@ -113,7 +127,23 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
   void _onTapSubmitButton() {
     if(_formKey.currentState!.validate()){
-      // TODO: Sign in with Api
+      _getChangePassword();
+    }
+  }
+
+  Future<void> _getChangePassword() async {
+    final bool isSuccess = await _changePasswordController.resetPassword(
+      ResetModel.email,ResetModel.otp,_passwordTEController.text,
+    );
+    if(isSuccess) {
+      Get.offAllNamed(SignInScreen.name);
+      if (mounted) {
+        showSnackBarMassage(context, 'Password Changed Successfully');
+      }
+    }else{
+      if(mounted){
+        showSnackBarMassage(context, _changePasswordController.errorMessage!);
+      }
     }
   }
 

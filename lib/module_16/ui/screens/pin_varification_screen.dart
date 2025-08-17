@@ -119,7 +119,6 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
     if (_formKey.currentState!.validate()) {
       _verifyOTP();
     }
-    // Navigator.pushNamed(context, ChangePasswordScreen.name);
   }
 
   void _onTapSignInButton() {
@@ -134,13 +133,8 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
     _pinVerifyOTPinProgress = true;
     if(mounted) setState(() {});
 
-    // final requestBody= {
-    //   "otp": _otpTEController.text.trim(),
-    //   "email": widget.email.trim(),
-    // };
-
     NetworkResponse response = await NetworkCaller.getRequest(
-      url: Urlss.getVerifyOTPUrl(_otpTEController.text,widget.email),
+      url: Urlss.getVerifyOTPUrl(widget.email,_otpTEController.text),
     );
 
     if(!mounted) return;

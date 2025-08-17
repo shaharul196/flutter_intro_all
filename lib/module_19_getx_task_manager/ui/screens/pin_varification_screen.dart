@@ -1,12 +1,18 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:ostad_flutter_sazu/module_16/data/models/reset_model.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/screens/sign_in_screen.dart';
+import 'package:ostad_flutter_sazu/module_16/ui/widget/centered_circular_progress_indicator.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/widget/screen_background.dart';
+import 'package:ostad_flutter_sazu/module_16/ui/widget/snackbar_massage.dart';
+import 'package:ostad_flutter_sazu/module_19_getx_task_manager/ui/controllers/pin_verification_controller.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'change_password.dart';
+import 'package:get/get.dart';
 
 class PinVerificationScreen extends StatefulWidget {
-  const PinVerificationScreen({super.key});
+  const PinVerificationScreen({super.key, required this.email, });
+  final String email;
 
   static const String name = '/pin-verification';
 
@@ -19,6 +25,7 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
 
   final TextEditingController _otpTEController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final PinVerificationController _pinVerificationController = Get.find<PinVerificationController>();
 
   @override
   Widget build(BuildContext context) {
@@ -68,9 +75,17 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
 
 
                   SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: _onTapSubmitButton,
-                    child: Text('Verity'),
+                  GetBuilder<PinVerificationController>(
+                    builder: (controller) {
+                      return Visibility(
+                        visible: controller.inProgress == false,
+                        replacement: CenteredCircularProgressIndicator(),
+                        child: ElevatedButton(
+                          onPressed: _onTapSubmitButton,
+                          child: Text('Verity'),
+                        ),
+                      );
+                    }
                   ),
                   SizedBox(height: 32),
 
@@ -108,10 +123,22 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
   }
 
   void _onTapSubmitButton() {
-    // if(_formKey.currentState!.validate()){
-    //   // TODO: Sign in with Api
-    // }
-    Navigator.pushNamed(context, ChangePasswordScreen.name);
+    if(_formKey.currentState!.validate()){
+      _getPinVerification();
+    }
+    // Navigator.pushNamed(context, ChangePasswordScreen.name);
+  }
+
+  Future<void> _getPinVerification() async {
+    final bool isSuccess = await _pinVerificationController.verifyOTP(
+        widget.email, _otpTEController.text);
+    if(isSuccess){
+      Get.offAllNamed(ChangePasswordScreen.name);
+    }else {
+      if (mounted) {
+        showSnackBarMassage(context, _pinVerificationController.errorMessage!);
+      }
+    }
   }
 
 
