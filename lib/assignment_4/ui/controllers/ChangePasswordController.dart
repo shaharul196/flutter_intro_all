@@ -1,0 +1,37 @@
+import 'package:get/get.dart';
+import 'package:ostad_flutter_sazu/assignment_4/data/models/reset_model.dart';
+import 'package:ostad_flutter_sazu/assignment_4/data/service/network_caller.dart';
+import 'package:ostad_flutter_sazu/assignment_4/data/urls.dart';
+
+class ChangePasswordController extends GetxController {
+  bool _inProgress = false;
+  String? _errorMessage;
+
+  bool get inProgress => _inProgress;
+  String? get errorMessage => _errorMessage;
+
+  Future<bool> resetPassword(String email, String otp, String password) async {
+    bool isSuccess = false;
+    _inProgress = true;
+    update();
+
+    Map<String, String> requestBody = {
+      "email": ResetModel.email,
+      "OTP": ResetModel.otp,
+      "password": password,
+    };
+
+    NetworkResponse response = await NetworkCaller.postRequest(
+      url: Urlss.getResetPasswordUrl,
+      body: requestBody,
+    );
+    if (response.isSuccess) {
+      _errorMessage = null;
+    } else {
+      _errorMessage = response.errorMassage!;
+    }
+    _inProgress = false;
+    update();
+    return isSuccess;
+  }
+}

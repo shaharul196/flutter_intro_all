@@ -1,0 +1,184 @@
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:ostad_flutter_sazu/assignment_4/ui/controllers/sign_in_controller.dart';
+import 'package:ostad_flutter_sazu/assignment_4/ui/screens/forgot_password_email_screen.dart';
+import 'package:ostad_flutter_sazu/assignment_4/ui/screens/main_navigation_bar_screen.dart';
+import 'package:ostad_flutter_sazu/assignment_4/ui/screens/sign_up_screen.dart';
+import 'package:ostad_flutter_sazu/assignment_4/ui/widget/screen_background.dart';
+import 'package:ostad_flutter_sazu/assignment_4/ui/widget/snackbar_massage.dart';
+import 'package:email_validator/email_validator.dart';
+import '../widget/centered_circular_progress_indicator.dart';
+import 'package:get/get.dart';
+
+class SignInScreen extends StatefulWidget {
+  const SignInScreen({super.key});
+
+  static const String name = '/sign-in';
+
+  @override
+  State<SignInScreen> createState() => _SignInScreenState();
+}
+
+class _SignInScreenState extends State<SignInScreen> {
+  final TextEditingController _emailTEController = TextEditingController();
+  final TextEditingController _passwordTEController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool obscureText = true;
+  final SignInController _signInController = Get.find<SignInController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: ScreenBackground(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Form(
+              key: _formKey,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 80),
+                  Text(
+                    'Get Started With',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  SizedBox(height: 24),
+                  TextFormField(
+                    controller: _emailTEController,
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(hintText: 'Email'),
+                    validator: (String? value) {
+                      String email = value ?? '';
+                      if (EmailValidator.validate(email) == false) {
+                        return 'Enter a valid email';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 10),
+                  TextFormField(
+                    controller: _passwordTEController,
+                    obscureText: obscureText,
+                    decoration: InputDecoration(
+                      hintText: 'Password',
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            obscureText = !obscureText;
+                          });
+                        },
+                        icon: Icon(
+                          obscureText ? Icons.visibility_off : Icons.visibility,
+                        ),
+                      ),
+                    ),
+
+                    validator: (String? value) {
+                      if ((value?.length ?? 0) <= 6) {
+                        return 'Enter a valid password';
+                      }
+                      return null;
+                    },
+                  ),
+
+                  SizedBox(height: 16),
+                  GetBuilder<SignInController>(
+                    // init: _signInController,
+                    builder: (controller) {
+                      return Visibility(
+                        visible: controller.inProgress == false,
+                        replacement: CenteredCircularProgressIndicator(),
+                        child: ElevatedButton(
+                          onPressed: _onTapSignInButton,
+                          child: Icon(
+                            Icons.arrow_circle_right_outlined,
+                            size: 20,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  SizedBox(height: 32),
+
+                  Center(
+                    child: Column(
+                      children: [
+                        TextButton(
+                          onPressed: _onTapForgotPasswordButton,
+                          child: Text(
+                            'Forgot Password?',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ),
+
+                        RichText(
+                          text: TextSpan(
+                            text: "Don't have a account? ",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                              letterSpacing: 0.5,
+                            ),
+                            children: [
+                              TextSpan(
+                                text: 'Sign Up',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.green,
+                                ),
+                                recognizer:
+                                    TapGestureRecognizer()
+                                      ..onTap = _onTapSignUpButton,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _onTapSignInButton() {
+    if (_formKey.currentState!.validate()) {
+      _signIn();
+    }
+  }
+
+  Future<void> _signIn() async {
+    final bool isSuccess = await _signInController.signIn(
+      _emailTEController.text.trim(),
+      _passwordTEController.text,
+    );
+    if (isSuccess) {
+      Get.offAllNamed(MainNavigationBarScreen.name);
+    } else {
+      if (mounted) {
+        showSnackBarMassage(context, _signInController.errorMessage!);
+      }
+    }
+  }
+
+  void _onTapForgotPasswordButton() {
+    Get.offAllNamed(ForgotPasswordEmailScreen.name);
+  }
+
+  void _onTapSignUpButton() {
+    Get.offNamed(SignUpScreen.name);
+  }
+
+  @override
+  void dispose() {
+    _emailTEController.dispose();
+    _passwordTEController.dispose();
+    super.dispose();
+  }
+}
