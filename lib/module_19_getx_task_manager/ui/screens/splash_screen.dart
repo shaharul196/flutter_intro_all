@@ -30,7 +30,6 @@ class _SplashScreenState extends State<SplashScreen> {
     bool isloggedIn = await AuthController.isUserloggedIn();
     if(isloggedIn){
       Get.offNamed(MainNavigationBarScreen.name);
-      // Navigator.pushReplacementNamed(context, MainNavigationBarScreen.name);
     }else{
       Get.offNamed(SignInScreen.name);
     }

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:ostad_flutter_sazu/module_16/data/service/network_caller.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/widget/screen_background.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/widget/snackbar_massage.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/widget/tm_app_bar.dart';
-
-import '../../data/urls.dart';
+import 'package:ostad_flutter_sazu/module_19_getx_task_manager/ui/controllers/add_new_task_controller.dart';
 import '../widget/centered_circular_progress_indicator.dart';
+import 'package:get/get.dart';
 
 class AddNewTaskScreen extends StatefulWidget {
-  const AddNewTaskScreen({super.key});
+  const AddNewTaskScreen({super.key, required this.New,});
+  final String New;
 
   static const String name = '/add-new-task';
 
@@ -21,7 +21,8 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
   final TextEditingController _descriptionTEController =
       TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool _addNewTaskInProgress = false;
+  final AddNewTaskController _addNewTaskController = Get.find<AddNewTaskController>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -70,13 +71,17 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                     },
                   ),
                   SizedBox(height: 24),
-                  Visibility(
-                    visible: _addNewTaskInProgress == false,
-                    replacement: CenteredCircularProgressIndicator(),
-                    child: ElevatedButton(
-                      onPressed: _onTapSubmitButton,
-                      child: Icon(Icons.arrow_circle_right_outlined, size: 25),
-                    ),
+                  GetBuilder<AddNewTaskController>(
+                    builder: (controller) {
+                      return Visibility(
+                        visible: controller.inProgress == false,
+                        replacement: CenteredCircularProgressIndicator(),
+                        child: ElevatedButton(
+                          onPressed: _onTapSubmitButton,
+                          child: Icon(Icons.arrow_circle_right_outlined, size: 25),
+                        ),
+                      );
+                    }
                   ),
                 ],
               ),
@@ -91,35 +96,54 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
     if (_formKey.currentState!.validate()) {
       _addNewTask();
     }
-    // Navigator.pop(context);
   }
 
   Future<void> _addNewTask() async {
-    _addNewTaskInProgress = true;
-    setState(() {});
-
-    Map<String, String> requestBody = {
-      "title": _titleTEController.text.trim(),
-      "description": _descriptionTEController.text.trim(),
-      "status": "New",
-    };
-
-    NetworkResponse response = await NetworkCaller.postRequest(
-      url: Urlss.createNewTaskUrl,
-      body: requestBody,
-    );
-
-    _addNewTaskInProgress = false;
-    setState(() {});
-
-    if (response.isSuccess) {
-      _titleTEController.clear();
-      _descriptionTEController.clear();
-      showSnackBarMassage(context, 'Added new task');
-    } else {
-      showSnackBarMassage(context, response.errorMassage!);
-    }
+   final bool isSuccess = await _addNewTaskController.addNewTask(
+       _titleTEController.text.trim(),
+       _descriptionTEController.text.trim(),
+       widget.New,
+   );
+   if(isSuccess) {
+     _titleTEController.clear();
+     _descriptionTEController.clear();
+     if (mounted) {
+       showSnackBarMassage(context, 'Added new task');
+     }
+   }else {
+     if (mounted) {
+       showSnackBarMassage(context, _addNewTaskController.errorMessage!);
+     }
+   }
   }
+
+
+  // Future<void> _addNewTask() async {
+  //   _addNewTaskInProgress = true;
+  //   setState(() {});
+  //
+  //   Map<String, String> requestBody = {
+  //     "title": _titleTEController.text.trim(),
+  //     "description": _descriptionTEController.text.trim(),
+  //     "status": "New",
+  //   };
+  //
+  //   NetworkResponse response = await NetworkCaller.postRequest(
+  //     url: Urlss.createNewTaskUrl,
+  //     body: requestBody,
+  //   );
+  //
+  //   _addNewTaskInProgress = false;
+  //   setState(() {});
+  //
+  //   if (response.isSuccess) {
+  //     _titleTEController.clear();
+  //     _descriptionTEController.clear();
+  //     showSnackBarMassage(context, 'Added new task');
+  //   } else {
+  //     showSnackBarMassage(context, response.errorMassage!);
+  //   }
+  // }
 
   @override
   void dispose() {
