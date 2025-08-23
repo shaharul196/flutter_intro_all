@@ -2,14 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ostad_flutter_sazu/assignment_on_firebase/data/liveScoreModel.dart';
 
-class ArgentinaVSAfrica extends StatefulWidget {
-  const ArgentinaVSAfrica({super.key});
+class ArgentinaVSAfricaScreen extends StatefulWidget {
+  const ArgentinaVSAfricaScreen({super.key});
 
   @override
-  State<ArgentinaVSAfrica> createState() => _ArgentinaVSAfricaState();
+  State<ArgentinaVSAfricaScreen> createState() => _ArgentinaVSAfricaScreenState();
 }
 
-class _ArgentinaVSAfricaState extends State<ArgentinaVSAfrica> {
+class _ArgentinaVSAfricaScreenState extends State<ArgentinaVSAfricaScreen> {
   List<LiveScoreModel> _listOfScore = [];
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
