@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ostad_flutter_sazu/module_24/app/extentions/localization_extention.dart';
+import 'package:ostad_flutter_sazu/module_24/app/extensions/localization_extension.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
