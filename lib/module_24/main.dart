@@ -3,8 +3,9 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ostad_flutter_sazu/module_24/app/app.dart';
-
+import 'package:ostad_flutter_sazu/module_24/app/utils/app_version_service.dart';
 import 'firebase_options.dart';
+
 
 // localization
 // theme
@@ -25,6 +26,8 @@ Future<void> main() async {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
+
+  await AppVersionService.getCurrentAppVersion();
 
   runApp(CraftyBay());
 }

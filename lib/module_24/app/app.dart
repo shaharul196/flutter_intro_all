@@ -5,6 +5,8 @@ import 'package:ostad_flutter_sazu/module_24/app/controllers/language_controller
 import '../../l10n/app_localizations.dart';
 import '../features/auth/presentation/screens/splash_screen.dart';
 import 'package:get/get.dart';
+import 'app_colors.dart';
+import 'app_theme.dart';
 
 
 class CraftyBay extends StatefulWidget {
@@ -39,6 +41,10 @@ class _CraftyBayState extends State<CraftyBay> {
           supportedLocales: languageController.supportedLocales,
           locale: languageController.currentLocale,
           navigatorObservers: [observer],
+
+          theme: AppTheme.lightThemeData,
+          darkTheme: AppTheme.darkThemeData,
+          themeMode: ThemeMode.light,
 
           home: SplashScreen(),
         );

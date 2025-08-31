@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ostad_flutter_sazu/module_24/app/extensions/localization_extension.dart';
-import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/widgets/language_change_switch.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:ostad_flutter_sazu/module_24/app/assets_paths.dart';
+import 'package:ostad_flutter_sazu/module_24/app/utils/app_version_service.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,12 +15,20 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(context.localization.hello),
-            LanguageChangeSwitch(),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Spacer(),
+              SvgPicture.asset(AssetsPaths.logosSvg,width: 125,),
+              Spacer(),
+              CircularProgressIndicator(),
+              SizedBox(height:12),
+              // TODO'${context localization.version}'
+              Text('Version ${AppVersionService.currentVersion}'),
+            ],
+          ),
         ),
 
       ),
