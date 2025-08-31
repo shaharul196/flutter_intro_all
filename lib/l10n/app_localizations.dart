@@ -100,6 +100,10 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'hello'**
   String get hello;
+
+  // String? get selectLanguage => 'Select Language';
+
+
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

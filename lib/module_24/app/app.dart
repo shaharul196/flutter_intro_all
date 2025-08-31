@@ -1,13 +1,16 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
+import 'package:ostad_flutter_sazu/module_24/app/controllers/language_controller.dart';
 import '../../l10n/app_localizations.dart';
 import '../features/auth/presentation/screens/splash_screen.dart';
+import 'package:get/get.dart';
 
 
 class CraftyBay extends StatefulWidget {
   const CraftyBay({super.key});
+
+  static final LanguageController languageController = LanguageController();
 
   @override
   State<CraftyBay> createState() => _CraftyBayState();
@@ -20,23 +23,28 @@ class _CraftyBayState extends State<CraftyBay> {
     analytics: analytics,
   );
 
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      localizationsDelegates: [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: [
-        Locale('en'), // English
-        Locale('bn'), // Bangle
-      ],
-      locale: Locale('en'),
-      navigatorObservers: [observer],
+    return GetBuilder(
+      init: CraftyBay.languageController,
+      builder: (languageController) {
+        return MaterialApp(
+          localizationsDelegates: [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: languageController.supportedLocales,
+          locale: languageController.currentLocale,
+          navigatorObservers: [observer],
 
-      home: SplashScreen(),
+          home: SplashScreen(),
+        );
+      }
     );
   }
 }
+
+
