@@ -13,7 +13,6 @@ class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _numberController = TextEditingController();
   late InformationController informationController; /// sharedPreference instance
-
   List<String> list = [];
 
   Future<void> _loadData()async {
@@ -32,6 +31,12 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {});
     _nameController.clear();
     _numberController.clear();
+  }
+
+  void removeItem(int index){
+    list.removeAt(index);
+    setState(() {});
+    informationController.setData(list);
   }
 
   @override
@@ -71,14 +76,34 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Text('Save'),
               ),
             ),
+            SizedBox(height: 8,),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () async {
+                  await informationController.removeAllData();
+                  setState(() {});
+                  },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.purpleAccent,
+                  foregroundColor: Colors.black,
+                ),
+                child: Text('Remove all'),
+              ),
+            ),
             SizedBox(height: 20,),
 
             Expanded(
               child: ListView.builder(
                 itemCount: list.length,
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(list[index]),
+                  return InkWell(
+                    onLongPress: (){
+                      removeItem(index);
+                    },
+                    child: ListTile(
+                      title: Text(list[index]),
+                    ),
                   );
                 },
               ),
