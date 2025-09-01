@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ostad_flutter_sazu/module_23_node_app/data/database/information_controller.dart';
 import 'package:ostad_flutter_sazu/module_23_node_app/presentation/ui/widgets/custom_input_field.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -11,6 +12,34 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _numberController = TextEditingController();
+  late InformationController informationController; /// sharedPreference instance
+
+  List<String> list = [];
+
+  Future<void> _loadData()async {
+    await informationController.getData();
+    setState(() {});
+    list = informationController.list;
+  }
+
+  Future<void> addData() async {
+    if (_numberController.text.isEmpty || _numberController.text.isEmpty) {
+      return;
+    }
+    list.addAll([_nameController.text,_numberController.text]);
+
+    await informationController.setData(list);
+    setState(() {});
+    _nameController.clear();
+    _numberController.clear();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    informationController = InformationController();
+    _loadData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +57,31 @@ class _HomeScreenState extends State<HomeScreen> {
             CustomInputField(controller: _nameController, hintText: 'Name'),
             SizedBox(height: 10),
             CustomInputField(controller: _numberController, hintText: 'Number'),
-            SizedBox(height: 10,),
+            SizedBox(height: 10),
             SizedBox(
               width: double.infinity,
-              child: ElevatedButton(onPressed: () {},style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange,
-                foregroundColor: Colors.black,
-              ), child: Text('Save')),
+              child: ElevatedButton(
+                onPressed: () {
+                  addData();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.orange,
+                  foregroundColor: Colors.black,
+                ),
+                child: Text('Save'),
+              ),
+            ),
+            SizedBox(height: 20,),
+
+            Expanded(
+              child: ListView.builder(
+                itemCount: list.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(list[index]),
+                  );
+                },
+              ),
             ),
           ],
         ),
