@@ -1,16 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:ostad_flutter_sazu/module_24/app/assets_paths.dart';
 import 'package:ostad_flutter_sazu/module_24/app/utils/app_version_service.dart';
+import 'package:ostad_flutter_sazu/module_24/features/auth/presentation/screens/sign_in_screen.dart';
+import '../widgets/app_logo.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
+
+  static const String name = '/';
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+    _moveToNextScreen();
+  }
+
+  Future<void> _moveToNextScreen() async {
+    await Future.delayed(Duration(seconds: 3));
+    Navigator.pushReplacementNamed(context, SignInScreen.name);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Spacer(),
-              SvgPicture.asset(AssetsPaths.logosSvg,width: 125,),
+              AppLogo(),
               Spacer(),
               CircularProgressIndicator(),
               SizedBox(height:12),
@@ -35,3 +49,4 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 }
+
