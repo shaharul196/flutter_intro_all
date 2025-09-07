@@ -10,7 +10,16 @@ class AppTheme {
 
     textTheme: TextTheme(
       titleLarge: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+      titleMedium: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
     ),
+
+    appBarTheme: AppBarTheme(
+      titleTextStyle: TextStyle(
+        fontSize: 18,
+        color: Colors.black,
+        fontWeight: FontWeight.w500,
+      ),
+    )
   );
 
   static ThemeData get darkThemeData => ThemeData(
