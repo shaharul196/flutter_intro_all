@@ -22,7 +22,7 @@ class _BottomNavHolderScreenState extends State<BottomNavHolderScreen> {
    HomeScreen(),
  ];
 
-  @override
+ @override
   Widget build(BuildContext context) {
     return GetBuilder<MainNavController>(
       builder: (mainNavController) {
