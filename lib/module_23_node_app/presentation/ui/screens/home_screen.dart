@@ -25,8 +25,8 @@ class _HomeScreenState extends State<HomeScreen> {
     if (_numberController.text.isEmpty || _numberController.text.isEmpty) {
       return;
     }
+    // TODO ListTile/screen a add korar jonno
     list.addAll([_nameController.text,_numberController.text]);
-
     await informationController.setData(list);
     setState(() {});
     _nameController.clear();
