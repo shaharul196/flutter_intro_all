@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ostad_flutter_sazu/module_24/app/app_colors.dart';
-import 'package:ostad_flutter_sazu/module_24/features/products/product_list_screen.dart';
+import 'package:ostad_flutter_sazu/module_24/features/products/presentation/screens/product_list_screen.dart';
 
 class ProductCategoryItem extends StatelessWidget {
   const ProductCategoryItem({
