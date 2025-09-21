@@ -58,7 +58,7 @@ class NetworkCaller {
 
   Future<NetworkResponse> postRequest({
     required String url,
-    Map<String, String>? body,
+    Map<String, dynamic>? body,
     bool isFromLogin = false,
   }) async {
     try {
@@ -77,9 +77,11 @@ class NetworkCaller {
       );
       _logResponse(url, response);
 
-      if (response.statusCode == 200) {
+      final decodedjson = jsonDecode(response.body);
+
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
         // TODO sobcisu jsonEncode akare ase
-        final decodedjson = jsonDecode(response.body);
         return NetworkResponse(
           isSuccess: true,
           statusCode: response.statusCode,
@@ -93,6 +95,7 @@ class NetworkCaller {
           isSuccess: false,
           statusCode: response.statusCode,
           errorMassage: _unAuthorizeMassage,
+          body: decodedjson,
         );
       } else {
         final decodedjson = jsonDecode(response.body);
@@ -100,6 +103,7 @@ class NetworkCaller {
           isSuccess: false,
           statusCode: response.statusCode,
           errorMassage: decodedjson['data'] ?? _defaultErrorMassage,
+          body: decodedjson,
         );
       }
     } catch (e) {
@@ -278,7 +282,7 @@ class NetworkCaller {
 
   void _logRequest(
     String url,
-    Map<String, String>? body,
+    Map<String, dynamic>? body,
     Map<String, String>? headers,
   ) {
     _logger.i(

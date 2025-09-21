@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:ostad_flutter_sazu/module_24/features/auth/data/models/sign_up_request_model.dart';
+import 'package:ostad_flutter_sazu/module_24/features/auth/presentation/controller/sign_up_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/auth/presentation/screens/verify_otp_screen.dart';
 import 'package:ostad_flutter_sazu/module_24/features/auth/presentation/widgets/app_logo.dart';
+import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/widgets/centered_circular_progress.dart';
+import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/widgets/snackbar_message.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -18,6 +23,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _mobileController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  final SignUpController _signUpController = Get.find<SignUpController>();
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +41,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 SizedBox(height: 24),
                 AppLogo(width: 85),
                 SizedBox(height: 12),
-                Text('Create new account',
-                    style: textTheme.titleLarge),
+                Text('Create new account', style: textTheme.titleLarge),
                 Text(
                   'Please enter your details for new account',
                   style: textTheme.bodyLarge?.copyWith(color: Colors.grey),
@@ -49,8 +56,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 SizedBox(height: 8),
                 TextFormField(
                   controller: _firstNameController,
+                  textInputAction: TextInputAction.next,
                   decoration: InputDecoration(hintText: 'First Name'),
                 ),
+                SizedBox(height: 8),
                 TextFormField(
                   controller: _lastNameController,
                   textInputAction: TextInputAction.next,
@@ -77,16 +86,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 SizedBox(height: 16),
 
-                FilledButton(
-                  onPressed: () {
-                    _onTapSignUpButton();
+                GetBuilder<SignUpController>(
+                  builder: (controller) {
+                    return Visibility(
+                      visible: controller.signUpInProgress == false,
+                      replacement: CenteredCircularProgress(),
+                      child: FilledButton(
+                        onPressed: () {
+                          _onTapSignUpButton();
+                        },
+                        child: Text('Sign Up'),
+                      ),
+                    );
                   },
-                  child: Text('Sign Up'),
                 ),
-                SizedBox(height: 16,),
-                TextButton(onPressed: (){
-                  _onTapBackToLoginButton();
-                }, child: Text('Back to Login')),
+                SizedBox(height: 16),
+                TextButton(
+                  onPressed: () {
+                    _onTapBackToLoginButton();
+                  },
+                  child: Text('Back to Login'),
+                ),
               ],
             ),
           ),
@@ -96,14 +116,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void _onTapSignUpButton() {
-    Navigator.pushNamed(context, VerifyOtpScreen.name);
+    // TODO validate the form
+    //  if(_formKey.currentState!.validate()){
+    //  }
+    _signUp();
+
+  }
+
+  Future<void> _signUp() async {
+    SignUpRequestModel model = SignUpRequestModel(
+      firstName: _firstNameController.text.trim(),
+      lastName: _lastNameController.text.trim(),
+      email: _emailController.text.trim(),
+      password: _passwordController.text,
+      city: _addressController.text.trim(),
+      phone: _mobileController.text.trim(),
+    );
+    final bool isSuccess = await _signUpController.signUp(model);
+    if (isSuccess) {
+      shownSnackBarMessage(context, 'Sign up successful! Place login');
+      Navigator.pushNamed(context, VerifyOtpScreen.name);
+    } else {
+      shownSnackBarMessage(context, _signUpController.errorMessage!);
+    }
   }
 
   void _onTapBackToLoginButton() {
     Navigator.pop(context);
   }
 
- @override
+  @override
   void dispose() {
     super.dispose();
     _emailController.dispose();
