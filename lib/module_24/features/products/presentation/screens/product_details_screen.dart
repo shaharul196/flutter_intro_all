@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ostad_flutter_sazu/module_24/app/app_colors.dart';
+import 'package:ostad_flutter_sazu/module_24/features/products/presentation/screens/add_review.screen.dart';
 import 'package:ostad_flutter_sazu/module_24/features/products/presentation/widgets/color_picker.dart';
 import 'package:ostad_flutter_sazu/module_24/features/products/presentation/widgets/product_image_slider.dart';
 import 'package:ostad_flutter_sazu/module_24/features/products/presentation/widgets/size_picker.dart';
@@ -64,7 +65,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         ],
                                       ),
                                       TextButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          Navigator.pushNamed(context, AddReviewScreen.name);
+                                        },
                                         child: Text(
                                           'Reviews',
                                           style: TextStyle(

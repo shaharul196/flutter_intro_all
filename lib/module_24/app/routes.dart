@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ostad_flutter_sazu/module_24/features/auth/presentation/screens/verify_otp_screen.dart';
 import 'package:ostad_flutter_sazu/module_24/features/auth/presentation/screens/sign_in_screen.dart';
+import 'package:ostad_flutter_sazu/module_24/features/products/presentation/screens/add_review.screen.dart';
 import 'package:ostad_flutter_sazu/module_24/features/products/presentation/screens/product_details_screen.dart';
 import 'package:ostad_flutter_sazu/module_24/features/products/presentation/screens/product_list_screen.dart';
+import 'package:ostad_flutter_sazu/module_24/features/products/presentation/screens/review_screen.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/screens/bottom_nav_holder_screen.dart';
 import '../features/auth/presentation/screens/sign_up_screen.dart';
 import '../features/auth/presentation/screens/splash_screen.dart';
@@ -26,6 +28,10 @@ MaterialPageRoute onGenerateRoute(RouteSettings settings) {
     screen = ProductListScreen(categoryName: category);
   }else if(settings.name == ProductDetailsScreen.name){
     screen = ProductDetailsScreen();
+  }else if(settings.name == AddReviewScreen.name){
+    screen = AddReviewScreen();
+  }else if(settings.name == ReviewScreen.name){
+    screen = ReviewScreen();
   }
 
   return MaterialPageRoute(builder: (ctx) => screen);
