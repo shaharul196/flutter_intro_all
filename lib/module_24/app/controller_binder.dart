@@ -5,6 +5,8 @@ import 'package:ostad_flutter_sazu/module_24/features/auth/presentation/controll
 import 'package:ostad_flutter_sazu/module_24/features/auth/presentation/controller/verify_otp_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/controller/main_nav_controller.dart';
 
+import '../features/auth/presentation/controller/sign_in_controller.dart';
+
 class ControllerBinding extends Bindings {
   @override
   void dependencies() {
@@ -13,6 +15,7 @@ class ControllerBinding extends Bindings {
     Get.put(setUpNetworkClient());
     Get.put(SignUpController());
     Get.put(VerifyOtpController());
+    Get.put(SignInController());
   }
 
 }
