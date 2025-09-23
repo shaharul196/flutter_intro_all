@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:ostad_flutter_sazu/module_24/app/controllers/authentication_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/app/utils/app_version_service.dart';
 import 'package:ostad_flutter_sazu/module_24/features/auth/presentation/screens/sign_up_screen.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/screens/bottom_nav_holder_screen.dart';
@@ -23,7 +25,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _moveToNextScreen() async {
     await Future.delayed(Duration(seconds: 3));
-    Navigator.pushReplacementNamed(context, BottomNavHolderScreen.name);
+    bool isUserLoggedIn = await Get.find<AuthenticationController>().isUserAlreadyLoggedIn();
+    if(isUserLoggedIn){
+      await Get.find<AuthenticationController>().loadUserData();
+    }
+    Navigator.pushReplacementNamed(context, SignUpScreen.name);
   }
 
   @override

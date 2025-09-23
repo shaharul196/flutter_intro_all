@@ -120,7 +120,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     //  if(_formKey.currentState!.validate()){
     //  }
     _signUp();
-
   }
 
   Future<void> _signUp() async {
@@ -135,7 +134,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final bool isSuccess = await _signUpController.signUp(model);
     if (isSuccess) {
       shownSnackBarMessage(context, 'Sign up successful! Place login');
-      Navigator.pushNamed(context, VerifyOtpScreen.name);
+      Navigator.pushNamed(
+        context,
+        VerifyOtpScreen.name,
+        arguments: _emailController.text.trim(),
+      );
     } else {
       shownSnackBarMessage(context, _signUpController.errorMessage!);
     }

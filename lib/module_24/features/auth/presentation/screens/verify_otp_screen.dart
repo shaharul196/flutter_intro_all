@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ostad_flutter_sazu/module_16/ui/screens/sign_in_screen.dart';
+import 'package:ostad_flutter_sazu/module_24/app/controllers/authentication_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/auth/data/models/verify_otp_request_model.dart';
 import 'package:ostad_flutter_sazu/module_24/features/auth/presentation/controller/verify_otp_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/auth/presentation/widgets/app_logo.dart';
+import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/screens/bottom_nav_holder_screen.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/widgets/centered_circular_progress.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/widgets/snackbar_message.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -102,10 +104,13 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
     );
 
     final bool isSuccess = await _verifyOtpController.verifyOtp(model);
-    if(isSuccess){
-    // Cache user data
-    // Navigate to home
-    }else{
+    if (isSuccess) {
+      await Get.find<AuthenticationController>().saveUserData(
+        _verifyOtpController.userModel!,
+        _verifyOtpController.accessToken!,
+      );
+      Navigator.pushNamedAndRemoveUntil(context, BottomNavHolderScreen.name, (predicate) => false);
+    } else {
       shownSnackBarMessage(context, _verifyOtpController.errorMessage!);
     }
   }
