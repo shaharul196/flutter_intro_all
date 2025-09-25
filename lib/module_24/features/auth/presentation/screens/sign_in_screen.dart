@@ -6,7 +6,6 @@ import 'package:ostad_flutter_sazu/module_24/features/auth/presentation/screens/
 import 'package:ostad_flutter_sazu/module_24/features/auth/presentation/widgets/app_logo.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/widgets/centered_circular_progress.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/widgets/snackbar_message.dart';
-
 import '../../../../app/controllers/authentication_controller.dart';
 import '../../../shared/presentation/screens/bottom_nav_holder_screen.dart';
 
