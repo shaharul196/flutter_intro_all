@@ -5,6 +5,7 @@ import 'package:ostad_flutter_sazu/module_24/app/assets_paths.dart';
 import 'package:ostad_flutter_sazu/module_24/features/home/presentation/controller/home_slider_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/home/widgets/app_bar_icon_button.dart';
 import 'package:ostad_flutter_sazu/module_24/features/home/widgets/home_banner_slider.dart';
+import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/controller/category_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/controller/main_nav_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/widgets/centered_circular_progress.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/widgets/product_card.dart';
@@ -44,13 +45,14 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(height: 16),
               GetBuilder<HomeSliderController>(
                 builder: (controller) {
-                  if(controller.getSlidersInProgress){
+                  if (controller.getSlidersInProgress) {
                     return SizedBox(
                       height: 180,
-                        child: CenteredCircularProgress());
+                      child: CenteredCircularProgress(),
+                    );
                   }
-                  return HomeBannerSlider(sliders: controller.sliders,);
-                }
+                  return HomeBannerSlider(sliders: controller.sliders);
+                },
               ),
               SizedBox(height: 16),
               _buildSectionHeader(
@@ -76,16 +78,28 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildCategoryList() {
     return SizedBox(
       height: 100,
-      child: ListView.separated(
-        itemCount: 10,
-        primary: false,
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          return ProductCategoryItem();
-        },
-        separatorBuilder: (context, index) {
-          return SizedBox(width: 10);
+      child: GetBuilder<CategoryController>(
+        builder: (controller) {
+          if (controller.initialLoading) {
+            return CenteredCircularProgress();
+          }
+          return ListView.separated(
+            itemCount:
+                controller.categoryList.length > 10
+                    ? 10
+                    : controller.categoryList.length,
+            primary: false,
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              return ProductCategoryItem(
+                categoryModel: controller.categoryList[index],
+              );
+            },
+            separatorBuilder: (context, index) {
+              return SizedBox(width: 10);
+            },
+          );
         },
       ),
     );
@@ -96,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: [1,2,3,4,5,6].map((e) => ProductCard()).toList(),
+        children: [1, 2, 3, 4, 5, 6].map((e) => ProductCard()).toList(),
       ),
     );
   }
@@ -105,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: [1,2,3,4,5,6].map((e) => ProductCard()).toList(),
+        children: [1, 2, 3, 4, 5, 6].map((e) => ProductCard()).toList(),
       ),
     );
   }
@@ -114,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: [1,2,3,4,5,6].map((e) => ProductCard()).toList(),
+        children: [1, 2, 3, 4, 5, 6].map((e) => ProductCard()).toList(),
       ),
     );
   }
@@ -126,10 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(title, style: Theme
-            .of(context)
-            .textTheme
-            .titleMedium),
+        Text(title, style: Theme.of(context).textTheme.titleMedium),
         TextButton(onPressed: onTapSeeAll, child: Text('See all')),
       ],
     );
@@ -150,5 +161,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-

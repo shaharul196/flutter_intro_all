@@ -7,6 +7,8 @@ import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/contro
 import 'package:ostad_flutter_sazu/module_24/features/home/presentation/screens/home_screen.dart';
 import 'package:ostad_flutter_sazu/module_24/features/wishlish/presentation/screens/wish_list_screen.dart';
 
+import '../controller/category_controller.dart';
+
 class BottomNavHolderScreen extends StatefulWidget {
   const BottomNavHolderScreen({super.key});
 
@@ -29,6 +31,7 @@ class _BottomNavHolderScreenState extends State<BottomNavHolderScreen> {
   void initState() {
     super.initState();
     Get.find<HomeSliderController>().getHomeSliders();
+    Get.find<CategoryController>().getCategoryList();
   }
 
  @override

@@ -13,7 +13,6 @@ class CategoryListScreen extends StatefulWidget {
 }
 
 class _CategoryListScreenState extends State<CategoryListScreen> {
-
   final ScrollController _scrollController = ScrollController();
   final CategoryController _categoryController = Get.find<CategoryController>();
 
@@ -21,11 +20,16 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
   void initState() {
     super.initState();
     // TODO ai screen a asar sathe sathe ata call hobe
-    WidgetsBinding.instance.addPostFrameCallback((_){
-      _categoryController.getCategoryList();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // _categoryController.getCategoryList();
+      _scrollController.addListener(_loadMore);
     });
+  }
 
-
+  void _loadMore() {
+    if (_scrollController.position.extentAfter < 400) {
+      _categoryController.getCategoryList();
+    }
   }
 
   @override
@@ -41,27 +45,48 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
           title: Text('Categories'),
           leading: BackButton(onPressed: _backToHome),
         ),
-        body: GetBuilder<CategoryController>(
-            builder: (controller) {
-              if(controller.initialLoading){
-                return CenteredCircularProgress();
-              }
+        body: GetBuilder(
+          init: _categoryController,
+          builder: (_) {
+            if (_categoryController.initialLoading) {
+              return CenteredCircularProgress();
+            }
             return Padding(
               padding: const EdgeInsets.all(20),
-              child: GridView.builder(
-                controller: _scrollController,
-                itemCount: controller.categoryList.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                  crossAxisSpacing: 8,
-                  mainAxisSpacing: 8,
-                ),
-                itemBuilder: (context, index) {
-                  return FittedBox(child: ProductCategoryItem());
-                },
+              child: Column(
+                children: [
+                  Expanded(
+                    child: RefreshIndicator(
+                      onRefresh: () async {
+                        _categoryController.refreshCategoryList();
+                      },
+                      child: GridView.builder(
+                        controller: _scrollController,
+                        itemCount: _categoryController.categoryList.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 4,
+                          crossAxisSpacing: 8,
+                          mainAxisSpacing: 8,
+                        ),
+                        itemBuilder: (context, index) {
+                          return FittedBox(
+                            child: ProductCategoryItem(
+                              categoryModel:
+                                  _categoryController.categoryList[index],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  Visibility(
+                    visible: _categoryController.getCategoryInProgress,
+                    child: LinearProgressIndicator(),
+                  ),
+                ],
               ),
             );
-          }
+          },
         ),
       ),
     );

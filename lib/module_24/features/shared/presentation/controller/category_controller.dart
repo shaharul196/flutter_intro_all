@@ -31,6 +31,7 @@ class CategoryController extends GetxController {
       return false;
     }
     if (_currentPage == 0) {
+      _categoryList.clear();
       _initialLoading = true;
     } else {
       _getCategoryInProgress = true;
@@ -62,5 +63,10 @@ class CategoryController extends GetxController {
     }
     update();
     return isSuccess;
+  }
+
+  Future<void> refreshCategoryList() async {
+    _currentPage = 0;
+    getCategoryList();
   }
 }
