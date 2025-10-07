@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:ostad_flutter_sazu/module_24/app/urls.dart';
 import 'package:ostad_flutter_sazu/module_24/core/models/network_response.dart';
 import 'package:ostad_flutter_sazu/module_24/core/services/network_caller.dart';
-
 import '../../data/models/home_slider_model.dart';
 
 class HomeSliderController extends GetxController {

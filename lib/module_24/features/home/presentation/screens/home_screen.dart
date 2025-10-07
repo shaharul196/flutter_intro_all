@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ostad_flutter_sazu/module_24/app/assets_paths.dart';
-import 'package:ostad_flutter_sazu/module_24/features/home/presentation/controller/home_slides_controller.dart';
+import 'package:ostad_flutter_sazu/module_24/features/home/presentation/controller/home_slider_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/home/widgets/app_bar_icon_button.dart';
 import 'package:ostad_flutter_sazu/module_24/features/home/widgets/home_banner_slider.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/controller/main_nav_controller.dart';
