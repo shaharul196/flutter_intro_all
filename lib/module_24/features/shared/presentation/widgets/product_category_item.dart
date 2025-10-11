@@ -15,8 +15,9 @@ class ProductCategoryItem extends StatelessWidget {
         Navigator.pushNamed(
           context,
           ProductListScreen.name,
-          // arguments: 'Electronics'
-          arguments: categoryModel.title,
+          // arguments: 'Electronics'(ui)
+          // arguments: categoryModel.title,
+          arguments: categoryModel,
         );
       },
       child: Column(

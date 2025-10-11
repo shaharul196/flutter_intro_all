@@ -48,7 +48,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
         body: GetBuilder(
           init: _categoryController,
           builder: (_) {
-            if (_categoryController.initialLoading) {
+            if (_categoryController.isInitialLoading) {
               return CenteredCircularProgress();
             }
             return Padding(

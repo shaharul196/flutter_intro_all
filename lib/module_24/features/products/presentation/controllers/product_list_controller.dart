@@ -1,28 +1,28 @@
 import 'package:get/get.dart';
-import 'package:ostad_flutter_sazu/module_24/core/services/network_caller.dart';
-import 'package:ostad_flutter_sazu/module_24/features/shared/data/models/category_model.dart';
+import 'package:ostad_flutter_sazu/module_24/features/shared/data/models/product_model.dart';
 import '../../../../app/urls.dart';
 import '../../../../core/models/network_response.dart';
+import '../../../../core/services/network_caller.dart';
 
-class CategoryController extends GetxController {
+class ProductListController extends GetxController {
   int _currentPage = 0;
   int? _lastPageNo;
   final int _pageSize = 40;
 
-  bool _getCategoryInProgress = false;
+  bool _getProductListInProgress = false;
   bool _isInitialLoading = false;
-  final List<CategoryModel> _categoryList = [];
+  final List<ProductModel> _productList = [];
   String? _errorMessage;
 
-  bool get getCategoryInProgress => _getCategoryInProgress;
+  bool get getProductListInProgress => _getProductListInProgress;
 
   bool get isInitialLoading => _isInitialLoading;
 
-  List<CategoryModel> get categoryList => _categoryList;
+  List<ProductModel> get productList => _productList;
 
   String? get errorMessage => _errorMessage;
 
-  Future<bool> getCategoryList() async {
+  Future<bool> getProductListByCategory(String categoryId) async {
     bool isSuccess = false;
 
     if (_currentPage > (_lastPageNo ?? 1)) {
@@ -30,42 +30,42 @@ class CategoryController extends GetxController {
       return false;
     }
     if (_currentPage == 0) {
-      _categoryList.clear();
+      _productList.clear();
       _isInitialLoading = true;
     } else {
-      _getCategoryInProgress = true;
+      _getProductListInProgress = true;
     }
     update();
     _currentPage++;
 
     final NetworkResponse response = await Get.find<NetworkCaller>().getRequest(
-      url: Urls.categoryListUrl(_currentPage, _pageSize),
+      url: Urls.productListUrl(_currentPage, _pageSize,categoryId),
     );
-    if(response.isSuccess){
+    if (response.isSuccess) {
       _lastPageNo = response.body!['data']['last_page'];
-      List<CategoryModel> list = [];
-      for(Map<String,dynamic> jsonData in response.body!['data']['results']){
-        list.add(CategoryModel.fromJson(jsonData));
+      List<ProductModel> list = [];
+      for (Map<String, dynamic> jsonData in response.body!['data']['results']) {
+        list.add(ProductModel.fromJson(jsonData));
       }
       // _categoryList = list;
-      _categoryList.addAll(list);
+      _productList.addAll(list);
       isSuccess = true;
       _errorMessage = null;
-    }else{
+    } else {
       _errorMessage = response.errorMassage;
     }
 
     if (_isInitialLoading) {
       _isInitialLoading = false;
     } else {
-      _getCategoryInProgress = false;
+      _getProductListInProgress = false;
     }
     update();
     return isSuccess;
   }
 
-  Future<void> refreshCategoryList() async {
+  Future<void> refreshProductList(String categoryId) async {
     _currentPage = 0;
-    getCategoryList();
+    getProductListByCategory(categoryId);
   }
 }

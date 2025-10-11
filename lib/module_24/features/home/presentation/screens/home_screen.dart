@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
       height: 100,
       child: GetBuilder<CategoryController>(
         builder: (controller) {
-          if (controller.initialLoading) {
+          if (controller.isInitialLoading) {
             return CenteredCircularProgress();
           }
           return ListView.separated(
@@ -110,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: [1, 2, 3, 4, 5, 6].map((e) => ProductCard()).toList(),
+        // children: [1, 2, 3, 4, 5, 6].map((e) => ProductCard()).toList(),
       ),
     );
   }
@@ -119,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: [1, 2, 3, 4, 5, 6].map((e) => ProductCard()).toList(),
+        // children: [1, 2, 3, 4, 5, 6].map((e) => ProductCard()).toList(),
       ),
     );
   }
@@ -128,8 +128,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: [1, 2, 3, 4, 5, 6].map((e) => ProductCard()).toList(),
-      ),
+         // children: [1, 2, 3, 4, 5, 6].map((e) => ProductCard()).toList(),
+       ),
     );
   }
 

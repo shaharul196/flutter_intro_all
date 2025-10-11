@@ -18,7 +18,8 @@ class NetworkCaller {
     try {
       Uri uri = Uri.parse(url);
 
-      final Map<String, String> headers = {'token': accessToken};
+      final Map<String, String> headers = {'token': accessToken,
+      };
 
       _logRequest(url, null, headers);
       Response response = await get(uri, headers: headers);
@@ -67,6 +68,8 @@ class NetworkCaller {
       final Map<String, String> headers = {
         'content-type': 'application/json',
         'token': accessToken,
+        // 'Authorization': 'Bearer $accessToken',
+
       };
 
       _logRequest(url, body, headers);
@@ -126,6 +129,8 @@ class NetworkCaller {
       final Map<String, String> headers = {
         'content-type': 'application/json',
         'token': accessToken,
+        // 'Authorization': 'Bearer $accessToken',
+
       };
 
       _logRequest(url, body, headers);
@@ -181,6 +186,8 @@ class NetworkCaller {
       final Map<String, String> headers = {
         'content-type': 'application/json',
         'token': accessToken,
+        // 'Authorization': 'Bearer $accessToken',
+
       };
 
       _logRequest(url, body, headers);
@@ -236,6 +243,8 @@ class NetworkCaller {
       final Map<String, String> headers = {
         'content-type': 'application/json',
         'token': accessToken,
+        // 'Authorization': 'Bearer $accessToken',
+
       };
 
       _logRequest(url, body, headers);

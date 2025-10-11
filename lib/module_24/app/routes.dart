@@ -5,6 +5,7 @@ import 'package:ostad_flutter_sazu/module_24/features/products/presentation/scre
 import 'package:ostad_flutter_sazu/module_24/features/products/presentation/screens/product_details_screen.dart';
 import 'package:ostad_flutter_sazu/module_24/features/products/presentation/screens/product_list_screen.dart';
 import 'package:ostad_flutter_sazu/module_24/features/products/presentation/screens/review_screen.dart';
+import 'package:ostad_flutter_sazu/module_24/features/shared/data/models/category_model.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/screens/bottom_nav_holder_screen.dart';
 import '../features/auth/presentation/screens/sign_up_screen.dart';
 import '../features/auth/presentation/screens/splash_screen.dart';
@@ -24,8 +25,9 @@ MaterialPageRoute onGenerateRoute(RouteSettings settings) {
   }else if(settings.name == BottomNavHolderScreen.name){
     screen = BottomNavHolderScreen();
   }else if(settings.name == ProductListScreen.name){
-    final String category = settings.arguments as String;
-    screen = ProductListScreen(categoryName: category);
+    final CategoryModel category = settings.arguments as CategoryModel;
+    // screen = ProductListScreen(categoryName: category);
+    screen = ProductListScreen(category: category,);
   }else if(settings.name == ProductDetailsScreen.name){
     screen = ProductDetailsScreen();
   }else if(settings.name == AddReviewScreen.name){
