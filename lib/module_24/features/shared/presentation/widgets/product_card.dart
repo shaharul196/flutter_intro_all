@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ostad_flutter_sazu/module_24/app/app_colors.dart';
-import 'package:ostad_flutter_sazu/module_24/app/assets_paths.dart';
 import 'package:ostad_flutter_sazu/module_24/app/utils/constants.dart';
 import 'package:ostad_flutter_sazu/module_24/features/products/presentation/screens/product_details_screen.dart';
-
 import '../../data/models/product_model.dart';
 
 class ProductCard extends StatelessWidget {
@@ -15,7 +13,11 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, ProductDetailsScreen.name);
+        Navigator.pushNamed(
+          context,
+          ProductDetailsScreen.name,
+          arguments: productModel.id,
+        );
       },
       child: Card(
         elevation: 2,

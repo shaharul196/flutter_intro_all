@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:ostad_flutter_sazu/module_24/app/app_colors.dart';
 
 class ProductImageSlider extends StatefulWidget {
-  const ProductImageSlider({super.key});
+  const ProductImageSlider({super.key, required this.imageUrls});
+
+  final List<String> imageUrls;
 
   @override
   State<ProductImageSlider> createState() => _ProductImageSliderState();
@@ -26,14 +28,20 @@ class _ProductImageSliderState extends State<ProductImageSlider> {
             },
           ),
           items:
-              [1, 2, 3, 4, 5].map((i) {
+              widget.imageUrls.map((image) {
                 return Builder(
                   builder: (BuildContext context) {
                     return Container(
-                      color: Colors.grey.shade300,
                       width: MediaQuery.of(context).size.width,
                       alignment: Alignment.center,
-                      child: Text('text $i', style: TextStyle(fontSize: 16.0)),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade300,
+                        image: DecorationImage(
+                            image: NetworkImage(image),
+                          fit: BoxFit.scaleDown,
+                        ),
+                      ),
+                      // child: Text('text $i', style: TextStyle(fontSize: 16.0)),
                     );
                   },
                 );
@@ -49,7 +57,7 @@ class _ProductImageSliderState extends State<ProductImageSlider> {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  for (int i = 0; i < 5; i++)
+                  for (int i = 0; i < widget.imageUrls.length; i++)
                     Container(
                       width: 13,
                       height: 13,
