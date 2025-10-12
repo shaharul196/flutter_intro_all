@@ -196,7 +196,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 ),
               ),
               //TODO Expanded deoyar karone TotalPriceAndCartSection er container ke dhakka mere niche diyece
-              TotalPriceAndCartSection(),
+              TotalPriceAndCartSection(productId: widget.productId),
             ],
           );
         },
