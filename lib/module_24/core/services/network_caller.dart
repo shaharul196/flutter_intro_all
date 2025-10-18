@@ -10,7 +10,8 @@ class NetworkCaller {
   final Logger _logger = Logger();
 
   final VoidCallback onUnAuthorize;
-  final String accessToken;
+  // TODO Age token akbar save korcilo,akn jotobar call korbo totobar save hobe
+  final String Function() accessToken;
 
   NetworkCaller({required this.onUnAuthorize, required this.accessToken});
 
@@ -18,7 +19,7 @@ class NetworkCaller {
     try {
       Uri uri = Uri.parse(url);
 
-      final Map<String, String> headers = {'token': accessToken,
+      final Map<String, String> headers = {'token': accessToken(),
       };
 
       _logRequest(url, null, headers);
@@ -67,7 +68,7 @@ class NetworkCaller {
 
       final Map<String, String> headers = {
         'content-type': 'application/json',
-        'token': accessToken,
+        'token': accessToken(),
         // 'Authorization': 'Bearer $accessToken',
 
       };
@@ -128,7 +129,7 @@ class NetworkCaller {
 
       final Map<String, String> headers = {
         'content-type': 'application/json',
-        'token': accessToken,
+        'token': accessToken(),
         // 'Authorization': 'Bearer $accessToken',
 
       };
@@ -185,7 +186,7 @@ class NetworkCaller {
 
       final Map<String, String> headers = {
         'content-type': 'application/json',
-        'token': accessToken,
+        'token': accessToken(),
         // 'Authorization': 'Bearer $accessToken',
 
       };
@@ -242,7 +243,7 @@ class NetworkCaller {
 
       final Map<String, String> headers = {
         'content-type': 'application/json',
-        'token': accessToken,
+        'token': accessToken(),
         // 'Authorization': 'Bearer $accessToken',
 
       };

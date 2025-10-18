@@ -5,13 +5,15 @@ import 'package:ostad_flutter_sazu/module_24/app/utils/constants.dart';
 import 'package:get/get.dart';
 import 'package:ostad_flutter_sazu/module_24/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:ostad_flutter_sazu/module_24/features/products/presentation/controllers/add_to_cart_controller.dart';
+import 'package:ostad_flutter_sazu/module_24/features/shared/data/models/product_details_model.dart';
+import 'package:ostad_flutter_sazu/module_24/features/shared/data/models/product_model.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/widgets/centered_circular_progress.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/widgets/snackbar_message.dart';
 
 class TotalPriceAndCartSection extends StatefulWidget {
-  const TotalPriceAndCartSection({super.key, required this.productId});
+  const TotalPriceAndCartSection({super.key, required this.productDetailsModel,});
 
-  final String productId;
+  final ProductDetailsModel productDetailsModel;
 
   @override
   State<TotalPriceAndCartSection> createState() => _TotalPriceAndCartSectionState();
@@ -46,7 +48,7 @@ class _TotalPriceAndCartSectionState extends State<TotalPriceAndCartSection> {
                 ),
               ),
               Text(
-                '${takaSign}120',
+                '$takaSign${widget.productDetailsModel.currentPrice}',
                 style: textTheme.titleMedium?.copyWith(
                   color: AppColors.themeColor,
                 ),
@@ -77,7 +79,7 @@ class _TotalPriceAndCartSectionState extends State<TotalPriceAndCartSection> {
     if(await Get.find<AuthenticationController>().isUserAlreadyLoggedIn()){
     // TODO Add to card
       final bool isSuccess = await _addToCartController.getAddToCard(
-          widget.productId);
+          widget.productDetailsModel.id);
       if(isSuccess){
         shownSnackBarMessage(context, 'Added to cart');
       }else{
