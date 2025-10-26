@@ -7,8 +7,7 @@ import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/widget
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/widgets/snackbar_message.dart';
 
 class AddReviewScreen extends StatefulWidget {
-  const AddReviewScreen({super.key,});
-
+  const AddReviewScreen({super.key});
 
   static const String name = '/add_review';
 

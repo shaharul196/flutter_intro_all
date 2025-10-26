@@ -34,8 +34,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       if (controller.getReviewInProgress) {
                         return CenteredCircularProgress();
                       }
-                      if(controller.reviewList.isEmpty){
-                        return Center(child: Text('No review data'),);
+                      if (controller.reviewList.isEmpty) {
+                        return Center(child: Text('No review data'));
                       }
                       return ListView.builder(
                         itemCount: controller.reviewList.length,

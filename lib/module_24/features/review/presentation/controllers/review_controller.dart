@@ -1,8 +1,6 @@
 import 'package:get/get.dart';
 import 'package:ostad_flutter_sazu/module_24/core/models/network_response.dart';
 import 'package:ostad_flutter_sazu/module_24/core/services/network_caller.dart';
-import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/widgets/snackbar_message.dart';
-
 import '../../../../app/urls.dart';
 import '../data/models/review_model.dart';
 
