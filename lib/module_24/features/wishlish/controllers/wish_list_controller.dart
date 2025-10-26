@@ -7,11 +7,14 @@ import '../../../app/urls.dart';
 class WishListController extends GetxController {
   bool _wishListInProgress = false;
   String? _errorMessage;
-   List<WishListModel> _wishList = [];
+  List<WishListModel> _wishList = [];
+
   // WishListModel? _wishListModel;
 
   bool get wishListInProgress => _wishListInProgress;
+
   String? get errorMessage => _errorMessage;
+
   List<WishListModel> get wishList => _wishList;
 
   // WishListModel? get wishListModel => _wishListModel;
@@ -25,10 +28,10 @@ class WishListController extends GetxController {
       url: Urls.wishListUrl,
     );
 
-    if(response.isSuccess){
+    if (response.isSuccess) {
       // _wishListModel = WishListModel.fromJson(response.body!['data']['results']);
       List<WishListModel> list = [];
-      for(Map<String, dynamic> jsonData in response.body!['data']['results']){
+      for (Map<String, dynamic> jsonData in response.body!['data']['results']) {
         list.add(WishListModel.fromJson(jsonData));
       }
 
@@ -36,7 +39,7 @@ class WishListController extends GetxController {
       _wishList = list;
       isSuccess = true;
       _errorMessage = null;
-    }else{
+    } else {
       _errorMessage = response.errorMassage!;
     }
 

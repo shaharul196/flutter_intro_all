@@ -15,11 +15,11 @@ class WishListModel {
 
   factory WishListModel.fromJson(Map<String, dynamic> jsonData) {
     return WishListModel(
-        id: jsonData['_id'],
-        title: jsonData['title'],
-        photos: List<String>.from(jsonData['photos'].map((e) => e).toList()),
-        currentPrice: jsonData['current_price'],
-        rating: 5.2,
+      id: jsonData['_id'],
+      title: jsonData['title'],
+      photos: List<String>.from(jsonData['photos'].map((e) => e).toList()),
+      currentPrice: jsonData['current_price'],
+      rating: 5.2,
     );
   }
 }
