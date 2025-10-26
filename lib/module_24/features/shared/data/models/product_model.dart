@@ -15,12 +15,12 @@ class ProductModel {
 
   factory ProductModel.fromJson(Map<String, dynamic> jsonData) {
     return ProductModel(
-        id: jsonData['_id'],
-        title: jsonData['title'],
-        // photos: jsonData['photos'].map((e) => e).toList() as List<String>,
-        photos: List<String>.from(jsonData['photos'].map((e) => e).toList()),
-        currentPrice: jsonData['current_price'],
-        rating: 3.0,
+      id: jsonData['_id'],
+      title: jsonData['title'],
+      // photos: jsonData['photos'].map((e) => e).toList() as List<String>,
+      photos: List<String>.from(jsonData['photos'].map((e) => e).toList()),
+      currentPrice: jsonData['current_price'],
+      rating: 3.0,
     );
   }
 }

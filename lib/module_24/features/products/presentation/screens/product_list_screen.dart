@@ -25,18 +25,17 @@ class _ProductListScreenState extends State<ProductListScreen> {
   void initState() {
     super.initState();
     _scrollController.addListener(loadMoreData);
-    WidgetsBinding.instance.addPostFrameCallback((_){
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       //TODO ai screen a asar sathe sathe ata call hobe
       _productListController.getProductListByCategory(widget.category.id);
     });
   }
 
-  void loadMoreData(){
-    if(_scrollController.position.extentAfter < 400){
+  void loadMoreData() {
+    if (_scrollController.position.extentAfter < 400) {
       _productListController.getProductListByCategory(widget.category.id);
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +44,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
       body: GetBuilder(
         init: _productListController,
         builder: (controller) {
-          if(controller.isInitialLoading){
+          if (controller.isInitialLoading) {
             return CenteredCircularProgress();
           }
           return Column(
@@ -60,17 +59,21 @@ class _ProductListScreenState extends State<ProductListScreen> {
                     mainAxisSpacing: 8,
                   ),
                   itemBuilder: (context, index) {
-                    return FittedBox(child: ProductCard(
-                      productModel: controller.productList[index],));
+                    return FittedBox(
+                      child: ProductCard(
+                        productModel: controller.productList[index],
+                      ),
+                    );
                   },
                 ),
               ),
               Visibility(
                 visible: controller.getProductListInProgress,
-                  child: LinearProgressIndicator()),
+                child: LinearProgressIndicator(),
+              ),
             ],
           );
-        }
+        },
       ),
     );
   }

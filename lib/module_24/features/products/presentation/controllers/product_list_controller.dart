@@ -11,7 +11,7 @@ class ProductListController extends GetxController {
 
   bool _getProductListInProgress = false;
   bool _isInitialLoading = false;
-   List<ProductModel> _productList = [];
+  final List<ProductModel> _productList = [];
   String? _errorMessage;
 
   bool get getProductListInProgress => _getProductListInProgress;
@@ -39,7 +39,7 @@ class ProductListController extends GetxController {
     _currentPage++;
 
     final NetworkResponse response = await Get.find<NetworkCaller>().getRequest(
-      url: Urls.productListUrl(_currentPage, _pageSize,categoryId),
+      url: Urls.productListUrl(_currentPage, _pageSize, categoryId),
     );
     if (response.isSuccess) {
       _lastPageNo = response.body!['data']['last_page'];
