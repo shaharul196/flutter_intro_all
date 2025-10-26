@@ -6,8 +6,6 @@ import 'package:ostad_flutter_sazu/module_24/features/home/presentation/controll
 import 'package:ostad_flutter_sazu/module_24/features/home/widgets/app_bar_icon_button.dart';
 import 'package:ostad_flutter_sazu/module_24/features/home/widgets/home_banner_slider.dart';
 import 'package:ostad_flutter_sazu/module_24/features/products/presentation/controllers/product_list_controller.dart';
-import 'package:ostad_flutter_sazu/module_24/features/shared/data/models/category_model.dart';
-import 'package:ostad_flutter_sazu/module_24/features/shared/data/models/product_model.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/controller/category_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/controller/main_nav_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/widgets/centered_circular_progress.dart';
@@ -22,8 +20,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final ProductListController _productListController = Get.find<ProductListController>();
-  // final ProductListController _productListController = ProductListController();
+  final ProductListController _productListController =
+      Get.find<ProductListController>();
 
   @override
   void initState() {
