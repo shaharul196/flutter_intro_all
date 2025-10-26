@@ -10,6 +10,7 @@ class NetworkCaller {
   final Logger _logger = Logger();
 
   final VoidCallback onUnAuthorize;
+
   // TODO Age token akbar save korcilo,akn jotobar call korbo totobar save hobe
   final String Function() accessToken;
 
@@ -19,8 +20,7 @@ class NetworkCaller {
     try {
       Uri uri = Uri.parse(url);
 
-      final Map<String, String> headers = {'token': accessToken(),
-      };
+      final Map<String, String> headers = {'token': accessToken()};
 
       _logRequest(url, null, headers);
       Response response = await get(uri, headers: headers);
@@ -69,8 +69,8 @@ class NetworkCaller {
       final Map<String, String> headers = {
         'content-type': 'application/json',
         'token': accessToken(),
-        // 'Authorization': 'Bearer $accessToken',
 
+        // 'Authorization': 'Bearer $accessToken',
       };
 
       _logRequest(url, body, headers);
@@ -82,7 +82,6 @@ class NetworkCaller {
       _logResponse(url, response);
 
       final decodedjson = jsonDecode(response.body);
-
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         // TODO sobcisu jsonEncode akare ase
@@ -130,8 +129,8 @@ class NetworkCaller {
       final Map<String, String> headers = {
         'content-type': 'application/json',
         'token': accessToken(),
-        // 'Authorization': 'Bearer $accessToken',
 
+        // 'Authorization': 'Bearer $accessToken',
       };
 
       _logRequest(url, body, headers);
@@ -187,8 +186,8 @@ class NetworkCaller {
       final Map<String, String> headers = {
         'content-type': 'application/json',
         'token': accessToken(),
-        // 'Authorization': 'Bearer $accessToken',
 
+        // 'Authorization': 'Bearer $accessToken',
       };
 
       _logRequest(url, body, headers);
@@ -244,8 +243,8 @@ class NetworkCaller {
       final Map<String, String> headers = {
         'content-type': 'application/json',
         'token': accessToken(),
-        // 'Authorization': 'Bearer $accessToken',
 
+        // 'Authorization': 'Bearer $accessToken',
       };
 
       _logRequest(url, body, headers);
