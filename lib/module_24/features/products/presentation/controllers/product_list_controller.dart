@@ -11,7 +11,7 @@ class ProductListController extends GetxController {
 
   bool _getProductListInProgress = false;
   bool _isInitialLoading = false;
-  final List<ProductModel> _productList = [];
+   List<ProductModel> _productList = [];
   String? _errorMessage;
 
   bool get getProductListInProgress => _getProductListInProgress;

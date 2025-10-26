@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ostad_flutter_sazu/module_24/app/app_colors.dart';
 import 'package:ostad_flutter_sazu/module_24/features/products/presentation/controllers/product_details_controller.dart';
-import 'package:ostad_flutter_sazu/module_24/features/products/presentation/screens/add_review.screen.dart';
 import 'package:ostad_flutter_sazu/module_24/features/products/presentation/widgets/color_picker.dart';
 import 'package:ostad_flutter_sazu/module_24/features/products/presentation/widgets/product_image_slider.dart';
 import 'package:ostad_flutter_sazu/module_24/features/products/presentation/widgets/size_picker.dart';
 import 'package:ostad_flutter_sazu/module_24/features/products/presentation/widgets/total_price_and_cart_section.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/widgets/centered_circular_progress.dart';
+import '../../../review/presentation/screens/add_review.screen.dart';
 import '../../../shared/presentation/widgets/increment_decrement_button.dart';
 
 class ProductDetailsScreen extends StatefulWidget {

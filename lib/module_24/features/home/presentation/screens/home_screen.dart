@@ -5,11 +5,14 @@ import 'package:ostad_flutter_sazu/module_24/app/assets_paths.dart';
 import 'package:ostad_flutter_sazu/module_24/features/home/presentation/controller/home_slider_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/home/widgets/app_bar_icon_button.dart';
 import 'package:ostad_flutter_sazu/module_24/features/home/widgets/home_banner_slider.dart';
+import 'package:ostad_flutter_sazu/module_24/features/products/presentation/controllers/product_list_controller.dart';
+import 'package:ostad_flutter_sazu/module_24/features/shared/data/models/category_model.dart';
+import 'package:ostad_flutter_sazu/module_24/features/shared/data/models/product_model.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/controller/category_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/controller/main_nav_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/widgets/centered_circular_progress.dart';
-import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/widgets/product_card.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/widgets/product_category_item.dart';
+import '../../../shared/presentation/widgets/product_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,6 +22,17 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final ProductListController _productListController = Get.find<ProductListController>();
+  // final ProductListController _productListController = ProductListController();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _productListController.getProductListByCategory('');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,11 +76,26 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
               ),
               _buildCategoryList(),
-              _buildSectionHeader(title: 'New', onTapSeeAll: () {}),
+              _buildSectionHeader(
+                title: 'New',
+                onTapSeeAll: () {
+                  Get.find<MainNavController>().moveToCategory();
+                },
+              ),
               _buildNewProductList(),
-              _buildSectionHeader(title: 'Special', onTapSeeAll: () {}),
+              _buildSectionHeader(
+                title: 'Special',
+                onTapSeeAll: () {
+                  Get.find<MainNavController>().moveToCategory();
+                },
+              ),
               _buildSpecialProductList(),
-              _buildSectionHeader(title: 'Popular', onTapSeeAll: () {}),
+              _buildSectionHeader(
+                title: 'Popular',
+                onTapSeeAll: () {
+                  Get.find<MainNavController>().moveToCategory();
+                },
+              ),
               _buildPopularProductList(),
             ],
           ),
@@ -107,29 +136,64 @@ class _HomeScreenState extends State<HomeScreen> {
 
   //TODO ata listView builder/separated diye korte parbo
   Widget _buildNewProductList() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        // children: [1, 2, 3, 4, 5, 6].map((e) => ProductCard()).toList(),
-      ),
+    return GetBuilder(
+      init: _productListController,
+      builder: (controller) {
+        if (controller.isInitialLoading) {
+          return CenteredCircularProgress();
+        }
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            // children: [1, 2, 3, 4, 5, 6].map((e) => ProductCard()).toList(),
+            children:
+                controller.productList
+                    .map((product) => ProductCard(productModel: product))
+                    .toList(),
+          ),
+        );
+      },
     );
   }
 
   Widget _buildPopularProductList() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        // children: [1, 2, 3, 4, 5, 6].map((e) => ProductCard()).toList(),
-      ),
+    return GetBuilder(
+      init: _productListController,
+      builder: (controller) {
+        if (controller.isInitialLoading) {
+          return CenteredCircularProgress();
+        }
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            // children: [1, 2, 3, 4, 5, 6].map((e) => ProductCard()).toList(),
+            children:
+                controller.productList
+                    .map((product) => ProductCard(productModel: product))
+                    .toList(),
+          ),
+        );
+      },
     );
   }
 
   Widget _buildSpecialProductList() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-         // children: [1, 2, 3, 4, 5, 6].map((e) => ProductCard()).toList(),
-       ),
+    return GetBuilder(
+      init: _productListController,
+      builder: (controller) {
+        if (controller.isInitialLoading) {
+          return CenteredCircularProgress();
+        }
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children:
+                controller.productList
+                    .map((product) => ProductCard(productModel: product))
+                    .toList(),
+          ),
+        );
+      },
     );
   }
 
