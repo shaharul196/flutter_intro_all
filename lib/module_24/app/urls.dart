@@ -18,4 +18,7 @@ class Urls {
   static const String cartListUrl = '$_baseUrl/cart';
   static const String wishListUrl = '$_baseUrl/wishlist';
   static const String addReviewUrl = '$_baseUrl/review';
+
+  static String reviewUrl(String productId) =>
+      '$_baseUrl/reviews$productId';
 }
