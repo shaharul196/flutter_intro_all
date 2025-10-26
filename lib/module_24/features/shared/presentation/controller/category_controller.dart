@@ -41,17 +41,17 @@ class CategoryController extends GetxController {
     final NetworkResponse response = await Get.find<NetworkCaller>().getRequest(
       url: Urls.categoryListUrl(_currentPage, _pageSize),
     );
-    if(response.isSuccess){
+    if (response.isSuccess) {
       _lastPageNo = response.body!['data']['last_page'];
       List<CategoryModel> list = [];
-      for(Map<String,dynamic> jsonData in response.body!['data']['results']){
+      for (Map<String, dynamic> jsonData in response.body!['data']['results']) {
         list.add(CategoryModel.fromJson(jsonData));
       }
       // _categoryList = list;
       _categoryList.addAll(list);
       isSuccess = true;
       _errorMessage = null;
-    }else{
+    } else {
       _errorMessage = response.errorMassage;
     }
 
