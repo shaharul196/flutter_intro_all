@@ -5,9 +5,7 @@ import 'package:ostad_flutter_sazu/module_24/features/category/presentation/scre
 import 'package:ostad_flutter_sazu/module_24/features/home/presentation/controller/home_slider_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/controller/main_nav_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/home/presentation/screens/home_screen.dart';
-import 'package:ostad_flutter_sazu/module_24/features/wishlish/controllers/wish_list_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/wishlish/presentation/screens/wish_list_screen.dart';
-
 import '../controller/category_controller.dart';
 
 class BottomNavHolderScreen extends StatefulWidget {
@@ -20,15 +18,14 @@ class BottomNavHolderScreen extends StatefulWidget {
 }
 
 class _BottomNavHolderScreenState extends State<BottomNavHolderScreen> {
+  final List<Widget> _screens = [
+    HomeScreen(),
+    CategoryListScreen(),
+    CartScreen(),
+    WishListScreen(),
+  ];
 
- final List<Widget> _screens = [
-   HomeScreen(),
-   CategoryListScreen(),
-   CartScreen(),
-   WishListScreen(),
- ];
-
- @override
+  @override
   void initState() {
     super.initState();
     Get.find<HomeSliderController>().getHomeSliders();
@@ -36,7 +33,7 @@ class _BottomNavHolderScreenState extends State<BottomNavHolderScreen> {
     // Get.find<WishListController>().getWishList();
   }
 
- @override
+  @override
   Widget build(BuildContext context) {
     return GetBuilder<MainNavController>(
       builder: (mainNavController) {

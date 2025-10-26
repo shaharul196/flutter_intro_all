@@ -5,9 +5,9 @@ class MainNavController extends GetxController {
 
   int get currentIndex => _selectedIndex;
 
-  void changeIndex(int index){
-    if(_selectedIndex == index){
-      return ;
+  void changeIndex(int index) {
+    if (_selectedIndex == index) {
+      return;
     }
     _selectedIndex = index;
     update();
@@ -16,6 +16,7 @@ class MainNavController extends GetxController {
   void moveToCategory() {
     changeIndex(1);
   }
+
   void backToHome() {
     changeIndex(0);
   }
