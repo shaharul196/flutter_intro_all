@@ -11,6 +11,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   CameraController? _cameraController;
   List<CameraDescription> _cameras = [];
+  int _selectedCamera = 0;
 
   Future<void> _getCameras() async {
     _cameras = await availableCameras();
@@ -20,13 +21,29 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _getCameras().then((_) {
-      _cameraController = CameraController(_cameras[0], ResolutionPreset.max);
-      _cameraController?.initialize().then((_) {
-        if (mounted) {
-          setState(() {});
-        }
-      });
+     _initializeCameraController();
     });
+  }
+
+  void _initializeCameraController () {
+    // _cameraController = CameraController(_cameras[0], ResolutionPreset.max);
+    _cameraController = CameraController(_cameras[_selectedCamera], ResolutionPreset.max);
+    _cameraController?.initialize().then((_) {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
+
+  void _switchCamera() {
+    if(_cameras.length > 1) {
+      if (_selectedCamera == 0) {
+        _selectedCamera = 1;
+      } else {
+        _selectedCamera = 0;
+      }
+      _initializeCameraController();
+    }
   }
 
   @override
@@ -49,7 +66,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         FloatingActionButton(
                             child: Icon(Icons.cameraswitch_rounded),
-                            onPressed: ()  {}
+                            onPressed: () {
+                              _switchCamera();
+                            }
                         ),
 
                         FloatingActionButton(
