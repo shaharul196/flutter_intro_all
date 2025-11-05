@@ -1,25 +1,25 @@
 import 'package:get/get.dart';
-import 'package:ostad_flutter_sazu/module_24/features/shared/data/models/product_model.dart';
 import '../../../../app/urls.dart';
 import '../../../../core/models/network_response.dart';
 import '../../../../core/services/network_caller.dart';
+import '../../../shared/data/models/product_model.dart';
 
-class ProductListController extends GetxController {
+class NewProductListController extends GetxController {
   int _currentPage = 0;
   int? _lastPageNo;
   final int _pageSize = 40;
 
-  bool _getProductListInProgress = false;
+  bool _getNewProductListInProgress = false;
   bool _isInitialLoading = false;
-  final List<ProductModel> _productList = [];
+    List<ProductModel> _newProductList = [];
   String? _errorMessage;
 
-  bool get getProductListInProgress => _getProductListInProgress;
+  bool get getNewProductListInProgress => _getNewProductListInProgress;
   bool get isInitialLoading => _isInitialLoading;
-  List<ProductModel> get productList => _productList;
+  List<ProductModel> get newProductList => _newProductList;
   String? get errorMessage => _errorMessage;
 
-  Future<bool> getProductListByCategory(String categoryId) async {
+  Future<bool> getNewProductList() async {
     bool isSuccess = false;
 
     if (_currentPage > (_lastPageNo ?? 1)) {
@@ -27,16 +27,16 @@ class ProductListController extends GetxController {
       return false;
     }
     if (_currentPage == 0) {
-      _productList.clear();
+      _newProductList.clear();
       _isInitialLoading = true;
     } else {
-      _getProductListInProgress = true;
+      _getNewProductListInProgress = true;
     }
     update();
     _currentPage++;
 
     final NetworkResponse response = await Get.find<NetworkCaller>().getRequest(
-      url: Urls.productListUrl(_currentPage, _pageSize, categoryId),
+      url: Urls.newProductUrl(_currentPage, _pageSize,),
     );
     if (response.isSuccess) {
       _lastPageNo = response.body!['data']['last_page'];
@@ -44,8 +44,8 @@ class ProductListController extends GetxController {
       for (Map<String, dynamic> jsonData in response.body!['data']['results']) {
         list.add(ProductModel.fromJson(jsonData));
       }
-      // _categoryList = list;
-      _productList.addAll(list);
+      // _newProductList = list;
+      _newProductList.addAll(list);
       isSuccess = true;
       _errorMessage = null;
     } else {
@@ -55,14 +55,9 @@ class ProductListController extends GetxController {
     if (_isInitialLoading) {
       _isInitialLoading = false;
     } else {
-      _getProductListInProgress = false;
+      _getNewProductListInProgress = false;
     }
     update();
     return isSuccess;
-  }
-
-  Future<void> refreshProductList(String categoryId) async {
-    _currentPage = 0;
-    getProductListByCategory(categoryId);
   }
 }

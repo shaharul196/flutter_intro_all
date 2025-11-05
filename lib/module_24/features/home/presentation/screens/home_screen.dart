@@ -5,7 +5,10 @@ import 'package:ostad_flutter_sazu/module_24/app/assets_paths.dart';
 import 'package:ostad_flutter_sazu/module_24/features/home/presentation/controller/home_slider_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/home/widgets/app_bar_icon_button.dart';
 import 'package:ostad_flutter_sazu/module_24/features/home/widgets/home_banner_slider.dart';
+import 'package:ostad_flutter_sazu/module_24/features/products/presentation/controllers/new_product_list_controller.dart';
+import 'package:ostad_flutter_sazu/module_24/features/products/presentation/controllers/popular_product_list_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/products/presentation/controllers/product_list_controller.dart';
+import 'package:ostad_flutter_sazu/module_24/features/products/presentation/controllers/special_product_list_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/controller/category_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/controller/main_nav_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/widgets/centered_circular_progress.dart';
@@ -20,14 +23,22 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final ProductListController _productListController =
-      Get.find<ProductListController>();
+  // final ProductListController _productListController =
+  //     Get.find<ProductListController>();
+  final NewProductListController _newProductListController =
+      Get.find<NewProductListController>();
+  final PopularProductListController _popularProductListController =
+      Get.find<PopularProductListController>();
+  final SpecialProductListController _specialProductListController =
+      Get.find<SpecialProductListController>();
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _productListController.getProductListByCategory('');
+      _newProductListController.getNewProductList();
+      _popularProductListController.getPopularProductList();
+      _specialProductListController.getSpecialProductList();
     });
   }
 
@@ -135,17 +146,20 @@ class _HomeScreenState extends State<HomeScreen> {
   //TODO ata listView builder/separated diye korte parbo
   Widget _buildNewProductList() {
     return GetBuilder(
-      init: _productListController,
+      init: _newProductListController,
       builder: (controller) {
         if (controller.isInitialLoading) {
           return CenteredCircularProgress();
+        }
+        if (controller.newProductList.isEmpty) {
+          return Center(child: Text('No new data found'));
         }
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
             // children: [1, 2, 3, 4, 5, 6].map((e) => ProductCard()).toList(),
             children:
-                controller.productList
+                controller.newProductList
                     .map((product) => ProductCard(productModel: product))
                     .toList(),
           ),
@@ -156,17 +170,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildPopularProductList() {
     return GetBuilder(
-      init: _productListController,
+      init: _popularProductListController,
       builder: (controller) {
         if (controller.isInitialLoading) {
           return CenteredCircularProgress();
+        }
+        if (controller.popularProductList.isEmpty) {
+          return Center(child: Text('No popular data found'));
         }
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
             // children: [1, 2, 3, 4, 5, 6].map((e) => ProductCard()).toList(),
             children:
-                controller.productList
+                controller.popularProductList
                     .map((product) => ProductCard(productModel: product))
                     .toList(),
           ),
@@ -177,16 +194,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildSpecialProductList() {
     return GetBuilder(
-      init: _productListController,
+      init: _specialProductListController,
       builder: (controller) {
         if (controller.isInitialLoading) {
           return CenteredCircularProgress();
+        }
+        if (controller.specialProductList.isEmpty) {
+          return Center(child: Text('No special data found'));
         }
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
             children:
-                controller.productList
+                controller.specialProductList
                     .map((product) => ProductCard(productModel: product))
                     .toList(),
           ),

@@ -21,4 +21,13 @@ class Urls {
 
   static String reviewUrl(String productId) =>
       '$_baseUrl/reviews$productId';
+
+  static String newProductUrl(int pageNo, int pageSize,) =>
+      '$_baseUrl/products?count=$pageSize&page=$pageNo&tag=new';
+
+  static String popularProductUrl(int pageNo, int pageSize,) =>
+      '$_baseUrl/products?count=$pageSize&page=$pageNo&tag=popular';
+
+  static String specialProductUrl(int pageNo, int pageSize,) =>
+      '$_baseUrl/products?count=$pageSize&page=$pageNo&tag=special';
 }

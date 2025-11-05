@@ -5,7 +5,10 @@ import 'package:ostad_flutter_sazu/module_24/features/auth/presentation/controll
 import 'package:ostad_flutter_sazu/module_24/features/auth/presentation/controller/verify_otp_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/carts/presentation/controllers/cart_list_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/home/presentation/controller/home_slider_controller.dart';
+import 'package:ostad_flutter_sazu/module_24/features/products/presentation/controllers/new_product_list_controller.dart';
+import 'package:ostad_flutter_sazu/module_24/features/products/presentation/controllers/popular_product_list_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/products/presentation/controllers/product_list_controller.dart';
+import 'package:ostad_flutter_sazu/module_24/features/products/presentation/controllers/special_product_list_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/review/presentation/controllers/add_review_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/review/presentation/controllers/review_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/controller/category_controller.dart';
@@ -29,6 +32,9 @@ class ControllerBinding extends Bindings {
     Get.put(ProductListController());
     Get.put(AddReviewController());
     Get.put(ReviewController());
+    Get.put(NewProductListController());
+    Get.put(PopularProductListController());
+    Get.put(SpecialProductListController());
 
   }
 
