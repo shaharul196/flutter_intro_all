@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ostad_flutter_sazu/module_24/features/review/presentation/controllers/add_review_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/review/presentation/data/models/add_review_model.dart';
-import 'package:ostad_flutter_sazu/module_24/features/review/presentation/screens/review_screen.dart';
+import 'package:ostad_flutter_sazu/module_24/features/review/presentation/screens/review_list_screen.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/widgets/centered_circular_progress.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/widgets/snackbar_message.dart';
 
@@ -93,14 +93,16 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
 
   Future<void> _getAddReview() async {
     final model = AddReviewModel(
+      // productId: "679a06ad8ddf463f174f0df6",
       productId: "679a06ad8ddf463f174f0df6",
       comment: _descriptionController.text.trim(),
       rating: 4,
     );
-    final bool isSuccess = await _addReviewController.getAddReview(model);
+    final bool isSuccess = await _addReviewController.getAddReview(model,);
     if (isSuccess) {
+      final productId = _addReviewController.responseBody;
+      Navigator.pushNamed(context, ReviewListScreen.name, arguments: productId);
       shownSnackBarMessage(context, 'Successfully added review');
-      Navigator.pushNamed(context, ReviewScreen.name);
     } else {
       shownSnackBarMessage(context, _addReviewController.errorMessage!);
     }

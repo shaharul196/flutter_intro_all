@@ -6,7 +6,7 @@ import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/widget
 import '../widgets/cart_item.dart';
 
 class CartScreen extends StatefulWidget {
-  const CartScreen({super.key});
+  const CartScreen({super.key,});
 
   @override
   State<CartScreen> createState() => _CartScreenState();

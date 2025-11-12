@@ -7,12 +7,13 @@ import '../../../../app/urls.dart';
 class AddReviewController extends GetxController {
   bool _addReviewInProgress = false;
   String? _errorMessage;
+  String? _responseBody;
 
   bool get addReviewInProgress => _addReviewInProgress;
-
   String? get errorMessage => _errorMessage;
+  String? get responseBody => _responseBody;
 
-  Future<bool> getAddReview(AddReviewModel model) async {
+  Future<bool> getAddReview(AddReviewModel model,) async {
     bool isSuccess = false;
     _addReviewInProgress = true;
     update();
@@ -21,6 +22,7 @@ class AddReviewController extends GetxController {
         .postRequest(url: Urls.addReviewUrl, body: model.toJson());
 
     if (response.isSuccess) {
+      _responseBody = response.body!['data']['product'];
       isSuccess = true;
       _errorMessage = null;
     } else {

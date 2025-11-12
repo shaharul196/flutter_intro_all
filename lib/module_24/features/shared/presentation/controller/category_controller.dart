@@ -26,7 +26,7 @@ class CategoryController extends GetxController {
     bool isSuccess = false;
 
     if (_currentPage > (_lastPageNo ?? 1)) {
-      // TODO return korbe mane kicui hobe na
+      // TODO return false korbe mane kicui hobe na
       return false;
     }
     if (_currentPage == 0) {

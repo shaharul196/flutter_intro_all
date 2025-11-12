@@ -16,7 +16,7 @@ class ReviewModel {
   factory ReviewModel.fromJson(Map<String, dynamic> jsonData) {
     return ReviewModel(
       id: jsonData['_id'],
-      product: jsonData['product'],
+      product: jsonData['product']['_id'],
       user: UserInfo.fromJson(jsonData['user']),
       rating: 4,
       comment: jsonData['comment'],

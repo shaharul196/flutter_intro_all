@@ -1,8 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ostad_flutter_sazu/module_24/features/carts/presentation/controllers/cart_list_controller.dart';
+import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/widgets/snackbar_message.dart';
 import '../../../../app/app_colors.dart';
-import '../../../../app/assets_paths.dart';
 import '../../../../app/utils/constants.dart';
 import '../../../shared/presentation/widgets/increment_decrement_button.dart';
 import '../../data/cart_item_model.dart';
@@ -31,11 +33,13 @@ class CartItem extends StatelessWidget {
                   : cartItemModel.product.photos.first,
               height: 80,
               width: 80,
-              errorBuilder: (_, __, ___) => Container(
-                alignment: Alignment.center,
-                  height: 80,
-                  width: 80,
-                  child: Icon(Icons.error_outline)),
+              errorBuilder:
+                  (_, __, ___) => Container(
+                    alignment: Alignment.center,
+                    height: 80,
+                    width: 80,
+                    child: Icon(Icons.error_outline),
+                  ),
             ),
           ),
           Expanded(
@@ -61,7 +65,14 @@ class CartItem extends StatelessWidget {
                         ),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          // print('Deleting Cart ID: ${cartItemModel.id}');
+                          // print('Product ID: ${cartItemModel.product.id}');
+                          // Get.find<CartListController>().deleteCartItem(cartItemModel.id);
+                          // print('item deleted ....${cartItemModel.id}');
+
+                          _deleteCartItem(context);
+                        },
                         icon: Icon(Icons.delete_forever_outlined),
                       ),
                     ],
@@ -93,5 +104,49 @@ class CartItem extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<void> _deleteCartItem(BuildContext context) async {
+    final CartListController cartListController =
+        Get.find<CartListController>();
+
+    // Show confirmation dialog
+    bool? itemDelete = await showDialog<bool>(
+      context: context,
+      builder:
+          (dialogContext) => AlertDialog(
+            title: const Text('Remove Item'),
+            content: const Text(
+              'Are you sure you want to remove this item from your cart?',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(dialogContext).pop(false),
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(dialogContext).pop(true),
+                child: const Text('Remove'),
+              ),
+            ],
+          ),
+    );
+
+    if (itemDelete == true && context.mounted) {
+      bool isSuccess = await cartListController.deleteCartItem(
+        cartItemModel.id,
+      );
+
+      if (context.mounted) {
+        if (isSuccess) {
+          shownSnackBarMessage(context, 'Item removed from cart');
+        } else {
+          shownSnackBarMessage(
+            context,
+            cartListController.errorMessage ?? 'Failed to remove item',
+          );
+        }
+      }
+    }
   }
 }

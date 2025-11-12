@@ -54,4 +54,26 @@ class CartListController extends GetxController {
         quantity;
     update();
   }
+
+  Future<bool> deleteCartItem(String cartItemId) async {
+    bool isSuccess = false;
+    _inProgress = true;
+    update();
+
+    final NetworkResponse response = await Get.find<NetworkCaller>()
+        .deleteRequest(url: Urls.deleteCartItemUrl(cartItemId));
+
+    if (response.isSuccess) {
+      _cartItemList.removeWhere((item) => item.id == cartItemId);
+      _errorMessage = null;
+      isSuccess = true;
+    } else {
+      _errorMessage = response.errorMassage;
+    }
+
+    _inProgress = false;
+    update();
+
+    return isSuccess;
+  }
 }

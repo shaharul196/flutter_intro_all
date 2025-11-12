@@ -2,20 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ostad_flutter_sazu/module_24/app/app_colors.dart';
 import 'package:ostad_flutter_sazu/module_24/features/products/presentation/widgets/total_review_and_add_section.dart';
-import 'package:ostad_flutter_sazu/module_24/features/review/presentation/controllers/review_controller.dart';
+import 'package:ostad_flutter_sazu/module_24/features/review/presentation/controllers/review_list_controller.dart';
+import 'package:ostad_flutter_sazu/module_24/features/review/presentation/data/models/review_model.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/widgets/centered_circular_progress.dart';
 
-class ReviewScreen extends StatefulWidget {
-  const ReviewScreen({super.key});
+class ReviewListScreen extends StatefulWidget {
+  const ReviewListScreen({super.key, required this.productId,});
 
   static const String name = '/review-screen';
 
+  final String productId;
+
   @override
-  State<ReviewScreen> createState() => _ReviewScreenState();
+  State<ReviewListScreen> createState() => _ReviewListScreenState();
 }
 
-class _ReviewScreenState extends State<ReviewScreen> {
-  final ReviewController _reviewController = Get.find<ReviewController>();
+class _ReviewListScreenState extends State<ReviewListScreen> {
+  final ReviewListController _reviewListController =
+      Get.find<ReviewListController>();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _reviewListController.getReviewList(widget.productId);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +41,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
               children: [
                 Expanded(
                   child: GetBuilder(
-                    init: _reviewController,
+                    init: _reviewListController,
                     builder: (controller) {
                       if (controller.getReviewInProgress) {
                         return CenteredCircularProgress();
@@ -77,10 +89,14 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                     ],
                                   ),
                                   SizedBox(height: 4),
-                                  Text(
-                                    review.comment,
-                                    style: TextStyle(
-                                      color: Colors.grey.shade500,
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      review.comment,
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                        color: Colors.grey.shade500,
+                                      ),
                                     ),
                                   ),
                                 ],

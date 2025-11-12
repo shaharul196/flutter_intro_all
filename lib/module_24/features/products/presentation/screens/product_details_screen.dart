@@ -6,6 +6,7 @@ import 'package:ostad_flutter_sazu/module_24/features/products/presentation/widg
 import 'package:ostad_flutter_sazu/module_24/features/products/presentation/widgets/product_image_slider.dart';
 import 'package:ostad_flutter_sazu/module_24/features/products/presentation/widgets/size_picker.dart';
 import 'package:ostad_flutter_sazu/module_24/features/products/presentation/widgets/total_price_and_cart_section.dart';
+import 'package:ostad_flutter_sazu/module_24/features/review/presentation/screens/review_list_screen.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/widgets/centered_circular_progress.dart';
 import '../../../review/presentation/screens/add_review.screen.dart';
 import '../../../shared/presentation/widgets/increment_decrement_button.dart';
@@ -23,7 +24,7 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   final ProductDetailsController _productDetailsController =
-      ProductDetailsController();
+  Get.find<ProductDetailsController>();
 
   @override
   void initState() {
@@ -101,7 +102,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                             onPressed: () {
                                               Navigator.pushNamed(
                                                 context,
-                                                AddReviewScreen.name,
+                                                ReviewListScreen.name,
+                                                arguments: widget.productId,
                                               );
                                             },
                                             child: Text(
@@ -196,7 +198,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 ),
               ),
               //TODO Expanded deoyar karone TotalPriceAndCartSection er container ke dhakka mere niche diyece
-              TotalPriceAndCartSection(
+              controller.productDetailsModel == null
+                  ? const SizedBox.shrink()
+                  : TotalPriceAndCartSection(
                 productDetailsModel: controller.productDetailsModel!,
               ),
             ],

@@ -4,7 +4,7 @@ import 'package:ostad_flutter_sazu/module_24/core/services/network_caller.dart';
 import '../../../../app/urls.dart';
 import '../data/models/review_model.dart';
 
-class ReviewController extends GetxController {
+class ReviewListController extends GetxController {
   bool _getReviewInProgress = false;
   String? _errorMessage;
   List<ReviewModel> _reviewList = [];
@@ -15,13 +15,13 @@ class ReviewController extends GetxController {
 
   List<ReviewModel> get reviewList => _reviewList;
 
-  Future<bool> getReview(String productId) async {
+  Future<bool> getReviewList(String productId) async {
     bool isSuccess = false;
     _getReviewInProgress = true;
     update();
 
     final NetworkResponse response = await Get.find<NetworkCaller>().getRequest(
-      url: Urls.reviewUrl(productId),
+      url: Urls.reviewListUrl(productId),
     );
     if (response.isSuccess) {
       List<ReviewModel> list = [];
@@ -29,7 +29,6 @@ class ReviewController extends GetxController {
         list.add(ReviewModel.fromJson(jsonData));
       }
       _reviewList = list;
-
       isSuccess = true;
       _errorMessage = null;
     } else {

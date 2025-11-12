@@ -109,9 +109,13 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
         _verifyOtpController.userModel!,
         _verifyOtpController.accessToken!,
       );
-      Navigator.pushNamedAndRemoveUntil(context, BottomNavHolderScreen.name, (predicate) => false);
+      if(mounted){
+        Navigator.pushNamedAndRemoveUntil(context, BottomNavHolderScreen.name, (predicate) => false);
+      }
     } else {
-      shownSnackBarMessage(context, _verifyOtpController.errorMessage!);
+      if(mounted){
+        shownSnackBarMessage(context, _verifyOtpController.errorMessage!);
+      }
     }
   }
 

@@ -7,10 +7,11 @@ import 'package:ostad_flutter_sazu/module_24/features/carts/presentation/control
 import 'package:ostad_flutter_sazu/module_24/features/home/presentation/controller/home_slider_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/products/presentation/controllers/new_product_list_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/products/presentation/controllers/popular_product_list_controller.dart';
+import 'package:ostad_flutter_sazu/module_24/features/products/presentation/controllers/product_details_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/products/presentation/controllers/product_list_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/products/presentation/controllers/special_product_list_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/review/presentation/controllers/add_review_controller.dart';
-import 'package:ostad_flutter_sazu/module_24/features/review/presentation/controllers/review_controller.dart';
+import 'package:ostad_flutter_sazu/module_24/features/review/presentation/controllers/review_list_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/controller/category_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/controller/main_nav_controller.dart';
 import 'package:ostad_flutter_sazu/module_24/features/wishlish/controllers/wish_list_controller.dart';
@@ -30,8 +31,9 @@ class ControllerBinding extends Bindings {
     Get.put(CartListController());
     Get.put(WishListController());
     Get.put(ProductListController());
+    Get.put(ProductDetailsController());
     Get.put(AddReviewController());
-    Get.put(ReviewController());
+    Get.put(ReviewListController());
     Get.put(NewProductListController());
     Get.put(PopularProductListController());
     Get.put(SpecialProductListController());

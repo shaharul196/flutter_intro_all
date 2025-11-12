@@ -3,12 +3,14 @@ import 'package:ostad_flutter_sazu/module_24/features/auth/presentation/screens/
 import 'package:ostad_flutter_sazu/module_24/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:ostad_flutter_sazu/module_24/features/products/presentation/screens/product_details_screen.dart';
 import 'package:ostad_flutter_sazu/module_24/features/products/presentation/screens/product_list_screen.dart';
+import 'package:ostad_flutter_sazu/module_24/features/review/presentation/data/models/add_review_model.dart';
+import 'package:ostad_flutter_sazu/module_24/features/review/presentation/data/models/review_model.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/data/models/category_model.dart';
 import 'package:ostad_flutter_sazu/module_24/features/shared/presentation/screens/bottom_nav_holder_screen.dart';
 import '../features/auth/presentation/screens/sign_up_screen.dart';
 import '../features/auth/presentation/screens/splash_screen.dart';
 import '../features/review/presentation/screens/add_review.screen.dart';
-import '../features/review/presentation/screens/review_screen.dart';
+import '../features/review/presentation/screens/review_list_screen.dart';
 
 MaterialPageRoute onGenerateRoute(RouteSettings settings) {
   late Widget screen;
@@ -33,8 +35,10 @@ MaterialPageRoute onGenerateRoute(RouteSettings settings) {
     screen = ProductDetailsScreen(productId: productId);
   } else if (settings.name == AddReviewScreen.name) {
     screen = AddReviewScreen();
-  } else if (settings.name == ReviewScreen.name) {
-    screen = ReviewScreen();
+  } else if (settings.name == ReviewListScreen.name) {
+    // final AddReviewModel model = settings.arguments as AddReviewModel;
+    final String productId = settings.arguments as String;
+    screen = ReviewListScreen(productId: productId,);
   }
 
   return MaterialPageRoute(builder: (ctx) => screen);

@@ -18,7 +18,8 @@ class ProductListScreen extends StatefulWidget {
 }
 
 class _ProductListScreenState extends State<ProductListScreen> {
-  final ProductListController _productListController = ProductListController();
+  // final ProductListController _productListController = ProductListController();
+  final ProductListController _productListController = Get.find<ProductListController>();
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -46,6 +47,9 @@ class _ProductListScreenState extends State<ProductListScreen> {
         builder: (controller) {
           if (controller.isInitialLoading) {
             return CenteredCircularProgress();
+          }
+          if(controller.productList.isEmpty){
+            return Center(child: Text('No data found'));
           }
           return Column(
             children: [

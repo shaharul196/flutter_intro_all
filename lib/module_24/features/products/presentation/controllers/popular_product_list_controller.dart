@@ -7,7 +7,7 @@ import '../../../shared/data/models/product_model.dart';
 class PopularProductListController extends GetxController {
   int _currentPage = 0;
   int? _lastPageNo;
-  final int _pageSize = 40;
+  final int _pageSize = 10;
 
   bool _getPopularProductListInProgress = false;
   bool _isInitialLoading = false;

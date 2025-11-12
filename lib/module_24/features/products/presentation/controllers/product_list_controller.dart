@@ -8,10 +8,11 @@ class ProductListController extends GetxController {
   int _currentPage = 0;
   int? _lastPageNo;
   final int _pageSize = 40;
+  String? _currentCategoryId;
 
   bool _getProductListInProgress = false;
   bool _isInitialLoading = false;
-  final List<ProductModel> _productList = [];
+  List<ProductModel> _productList = [];
   String? _errorMessage;
 
   bool get getProductListInProgress => _getProductListInProgress;
@@ -22,12 +23,21 @@ class ProductListController extends GetxController {
   Future<bool> getProductListByCategory(String categoryId) async {
     bool isSuccess = false;
 
+    // 🔹 যদি নতুন category select করে, তাহলে সব reset করো
+    if (_currentCategoryId != categoryId) {
+      _currentCategoryId = categoryId;
+      _currentPage = 0;
+      _lastPageNo = null;
+      _productList.clear();
+    }
+
     if (_currentPage > (_lastPageNo ?? 1)) {
       // TODO return korbe mane kicui hobe na
       return false;
     }
+
     if (_currentPage == 0) {
-      _productList.clear();
+      // _productList.clear();
       _isInitialLoading = true;
     } else {
       _getProductListInProgress = true;
@@ -44,8 +54,14 @@ class ProductListController extends GetxController {
       for (Map<String, dynamic> jsonData in response.body!['data']['results']) {
         list.add(ProductModel.fromJson(jsonData));
       }
-      // _categoryList = list;
+      // _productList = list;
       _productList.addAll(list);
+
+      // if (list.isNotEmpty) {
+      //   _productList.addAll(list);
+      //   _currentPage++;
+      // }
+
       isSuccess = true;
       _errorMessage = null;
     } else {
@@ -63,6 +79,8 @@ class ProductListController extends GetxController {
 
   Future<void> refreshProductList(String categoryId) async {
     _currentPage = 0;
-    getProductListByCategory(categoryId);
+    _lastPageNo = null;
+    _productList.clear();
+     await getProductListByCategory(categoryId);
   }
 }
